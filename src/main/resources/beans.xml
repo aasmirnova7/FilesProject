@@ -16,13 +16,13 @@
 
     <!-- Hibernate 4 SessionFactory Bean definition -->
     <bean id="hibernateSessionFactory"
-          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <!--<property name="annotatedClasses">-->
             <!--<list>-->
                 <!--<value>model.User</value>-->
-                <!--&lt;!&ndash;<value>phone.book.model.Person</value>-->
-                <!--<value>phone.book.model.Phone</value> &ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;<value>phone.book.model.Person</value>&ndash;&gt;-->
+                <!--&lt;!&ndash;<value>phone.book.model.Phone</value> &ndash;&gt;&ndash;&gt;-->
             <!--</list>-->
         <!--</property>-->
         <property name="packagesToScan" value="model"/>

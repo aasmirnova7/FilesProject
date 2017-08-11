@@ -8,7 +8,7 @@ import java.util.List;
 public class User {
     @Id
     @Column(name = "id")
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Integer password;
     private String name;
@@ -17,8 +17,7 @@ public class User {
     public User() {
         super();
     }
-    public User(Long id, String name, String lastName, int password) {
-        this.id = id;
+    public User(String name, String lastName, int password) {
         this.name = name;
         this.lastName = lastName;
         this.password = password;

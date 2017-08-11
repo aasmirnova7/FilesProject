@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         UserDao userDAO = context.getBean(UserDao.class);
-        User user = new User((long) 1,"alexey", "alekseev", 123);
+        User user = new User("alexey", "alekseev", 123);
         System.out.println("User::" + user);
         userDAO.save(user);
         System.out.println("User::" + user);

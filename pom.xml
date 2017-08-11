@@ -24,7 +24,7 @@
     <properties>
         <hibernate.version>5.2.10.Final</hibernate.version>
         <spring.version>4.3.9.RELEASE</spring.version>
-        <postgresql.version>9.1-901-1.jdbc4</postgresql.version>
+        <postgresql.version>42.1.4</postgresql.version>
     </properties>
 
     <dependencies>
@@ -59,10 +59,12 @@
         </dependency>
 
         <dependency>
-            <groupId>postgresql</groupId>
+            <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
         </dependency>
+
+
 
 
     </dependencies>
