@@ -1,23 +1,28 @@
 package dao;
 
-import dao.UserDao;
 import model.User;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+
+@Repository
 public class UserDaoImpl implements UserDao {
 
-    private SessionFactory sessionFactory;
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+    @PersistenceContext //injection of entityManager
+    private EntityManager entityManager;
+
     @Override
+    @Transactional //modify the information in the database, so we need a transaction in order to commit our changes.
     public void save(User user) {
-        Session session = this.sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        session.persist(user);
-        tx.commit();
-        session.close();
+        entityManager.persist(user);
     }
+
+    @Override
+    public User find(Long id) {
+        return entityManager.find(User.class, id);
+    }
+
+
 }
