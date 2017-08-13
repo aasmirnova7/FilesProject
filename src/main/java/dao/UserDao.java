@@ -2,7 +2,11 @@ package dao;
 import model.User;
 
 public interface UserDao {
-    public void save(User u);
+    void save(User u);
+    void delete(User u);
 
-    public User find(Long id);
+    User find(Long id);
+    void changeFirstName(User u, String name);
+    void changeLastName(User u, String lastName);
+    void changePassword(User u, Integer password);
 }
