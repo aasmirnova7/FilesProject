@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class User {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.TABLE) // Для каждого user генерируем новый id
     private Long id;
     private Integer password;
     private String name;

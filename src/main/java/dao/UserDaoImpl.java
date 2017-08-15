@@ -17,11 +17,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional //modify the information in the database, so we need a transaction in order to commit our changes.
     public void save(User user) {
+        //Если таблица не пустая, то проверить, нет ли повторов
         entityManager.persist(user);
     }
     @Override
     @Transactional
     public void delete(User u) {
+        //Если удаляем строку из табл., нужно удалить все его файлы
         entityManager.remove(u);
     }
 

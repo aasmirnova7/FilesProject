@@ -41,7 +41,7 @@ public class DBConfig {
         properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL95Dialect");
         properties.put("hibernate.current_session_context_class","thread");
         properties.put("hibernate.show_sql","true");
-        properties.put("hibernate.hbm2ddl.auto","update");
+        properties.put("hibernate.hbm2ddl.auto","create");
 
         entityManagerFactoryBean.setJpaProperties(properties);
 
