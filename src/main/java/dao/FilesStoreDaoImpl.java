@@ -30,7 +30,7 @@ public class FilesStoreDaoImpl implements FilesStoreDao {
 
     @Override//Просто находим файл, без проверки доступа
     public List<FilesStore> find(FilesStore filesStore) {
-        Query query = entityManager.createQuery("FROM FilesStore s where s.fileName = :name AND s.idOwner = :owner ");
+        TypedQuery<FilesStore> query = entityManager.createQuery("FROM FilesStore s where s.fileName = :name AND s.idOwner = :owner ", FilesStore.class);
         query.setParameter("name", filesStore.getFileName());
         query.setParameter("owner", filesStore.getIdOwner());
         return query.getResultList();

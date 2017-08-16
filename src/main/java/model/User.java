@@ -7,33 +7,35 @@ import javax.persistence.*;
 public class User {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy=GenerationType.TABLE) // Для каждого user генерируем новый id
-    private Long id;
-    private Integer password;
+    //@GeneratedValue(strategy=GenerationType.TABLE) // Для каждого user генерируем новый id
+    private String id;
+    //поменяли integer - string
+    private String password;
     private String name;
     private String lastName;
 
     public User() {
         super();
     }
-    public User(String name, String lastName, int password) {
+    public User(String id, String name, String lastName, String password) {
+        this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.password = password;
     }
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String  id) {
         this.id = id;
     }
 
-    public int getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(int password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -52,6 +54,7 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
 
     @Override
     public String toString() {

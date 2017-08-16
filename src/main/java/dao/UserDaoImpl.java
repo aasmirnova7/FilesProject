@@ -1,12 +1,15 @@
 package dao;
 
 import model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.Operation;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -28,7 +31,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User find(Long id) {
+    public User find(String id) {
         return entityManager.find(User.class, id);
     }
 
@@ -48,9 +51,15 @@ public class UserDaoImpl implements UserDao {
     }
     @Override
     @Transactional
-    public void changePassword(User u, Integer password) {
+    public void changePassword(User u, String password) {
         //Можно менять только владельцу
         u.setPassword(password);
         entityManager.merge(u);
     }
+
+   /* @Override
+    public List<User> getAll() {
+        Query query = entityManager.createQuery("FROM User ");
+        return query.getResultList();
+    }*/
 }
