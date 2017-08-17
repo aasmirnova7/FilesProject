@@ -1,17 +1,20 @@
 package model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="store")
 public class FilesStore {
-    //Нужно объединить 2 поля в 1 primary key
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "storeGenerator")
     @SequenceGenerator(name="storeGenerator", sequenceName="storeGenerator", allocationSize=1)
     Integer number;
     String fileName;
     Integer privacy; // 0 - all,1 - owner, 2 - for some users
+
+    @OneToMany(mappedBy = "filesStore",cascade = CascadeType.ALL)
+    private Set<SpecialAccessFilesStore> specialAccessFilesStores;
     @ManyToOne
     @JoinColumn(name="id")
     private User user;
@@ -45,6 +48,13 @@ public class FilesStore {
     }
     public void setUser(User user) {
         this.user = user;
+    }
+    public Set<SpecialAccessFilesStore> getSpecialAccessFilesStores() {
+        return specialAccessFilesStores;
+    }
+
+    public void setSpecialAccessFilesStores(Set<SpecialAccessFilesStore> specialAccessFilesStores) {
+        this.specialAccessFilesStores = specialAccessFilesStores;
     }
 
     @Override

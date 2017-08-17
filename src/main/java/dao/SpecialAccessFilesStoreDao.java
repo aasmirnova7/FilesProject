@@ -3,12 +3,13 @@ package dao;
 
 import model.SpecialAccessFilesStore;
 
+import java.util.List;
+
 public interface SpecialAccessFilesStoreDao {
     void save(SpecialAccessFilesStore filesStore);
     void delete(SpecialAccessFilesStore filesStore);
 
-    SpecialAccessFilesStore find(SpecialAccessFilesStore filesStore);
-    void changeFileName(SpecialAccessFilesStore fs, String name);
+    List<SpecialAccessFilesStore> find(SpecialAccessFilesStore filesStore);
     void changeIdAccessed(SpecialAccessFilesStore fs, Long idAccessed);
 
 }

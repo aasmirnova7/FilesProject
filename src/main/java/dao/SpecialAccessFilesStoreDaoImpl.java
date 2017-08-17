@@ -1,11 +1,14 @@
 package dao;
 
+import model.FilesStore;
 import model.SpecialAccessFilesStore;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public class SpecialAccessFilesStoreDaoImpl implements SpecialAccessFilesStoreDao {
@@ -25,18 +28,11 @@ public class SpecialAccessFilesStoreDaoImpl implements SpecialAccessFilesStoreDa
         entityManager.remove(filesStore);
     }
 
-    //Переписать поиск сновым primary key
     @Override
-    public SpecialAccessFilesStore find(SpecialAccessFilesStore filesStore) {
-        return entityManager.find(SpecialAccessFilesStore.class, "fileName");
-    }
-    @Override
-    @Transactional
-    public void changeFileName(SpecialAccessFilesStore fs, String name) {
-        //if(fs.getIdOwner() == )
-        //Можно менять только владельцу
-        fs.setFileName(name);
-        entityManager.merge(fs);
+    public List<SpecialAccessFilesStore> find(SpecialAccessFilesStore filesStore) {
+        TypedQuery<SpecialAccessFilesStore> query = entityManager.createQuery("from SpecialAccessFilesStore s where s.filesStore = :store", SpecialAccessFilesStore.class);
+        query.setParameter("store", filesStore.getFilesStore());
+        return query.getResultList();
     }
     @Override
     @Transactional
