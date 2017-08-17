@@ -11,14 +11,14 @@ public class FilesStore {
     @SequenceGenerator(name="storeGenerator", sequenceName="storeGenerator", allocationSize=1)
     Integer number;
     String fileName;
-    @JoinColumn
-    Long idOwner;
     Integer privacy; // 0 - all,1 - owner, 2 - for some users
-
+    @ManyToOne
+    @JoinColumn(name="id")
+    private User user;
     public FilesStore(){}
-    public FilesStore(String fileName, Long idOwner, Integer privacy){
+    public FilesStore(String fileName, Integer privacy, User user){
         this.fileName = fileName;
-        this.idOwner = idOwner;
+        this.setUser(user);
         this.privacy = privacy;
     }
 
@@ -27,12 +27,6 @@ public class FilesStore {
     }
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
-    public Long getIdOwner() {
-        return idOwner;
-    }
-    public void setIdOwner(Long idOwner) {
-        this.idOwner = idOwner;
     }
     public Integer getPrivacy() {
         return privacy;
@@ -43,16 +37,20 @@ public class FilesStore {
     public Integer getNumber() {
         return number;
     }
-
     public void setNumber(Integer number) {
         this.number = number;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
         return "Files{" +
                 "fileName="+fileName+'\''+
-                ", idOwner'" + idOwner + '\'' +
                 ", privacy" + privacy+'\''+
                 '}';
     }

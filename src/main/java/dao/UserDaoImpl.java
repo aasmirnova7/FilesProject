@@ -22,6 +22,7 @@ public class UserDaoImpl implements UserDao {
     public void save(User user) {
         //Если таблица не пустая, то проверить, нет ли повторов
         entityManager.persist(user);
+
     }
     @Override
     @Transactional

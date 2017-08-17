@@ -15,6 +15,7 @@ import java.util.ArrayList;
 //Связь с БД : проверка того, что пользователи есть в БД
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
+
     @Autowired
     UserDao userDao;
 

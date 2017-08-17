@@ -10,7 +10,6 @@ public class SpecialAccessFilesStore {
     @GeneratedValue(strategy=GenerationType.TABLE) // Для каждого user генерируем новый id
     Integer number;
     String fileName;
-    @JoinColumn
     Long idAccessed;
 
     public SpecialAccessFilesStore(){}

@@ -1,18 +1,21 @@
 package model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="users")
 public class User {
     @Id
     @Column(name = "id")
-    //@GeneratedValue(strategy=GenerationType.TABLE) // Для каждого user генерируем новый id
     private String id;
     //поменяли integer - string
     private String password;
     private String name;
     private String lastName;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private Set<FilesStore> filesStore;
 
     public User() {
         super();
@@ -55,6 +58,13 @@ public class User {
         this.lastName = lastName;
     }
 
+    public Set<FilesStore> getFilesStore() {
+        return filesStore;
+    }
+
+    public void setFilesStore(Set<FilesStore> filesStore) {
+        this.filesStore = filesStore;
+    }
 
     @Override
     public String toString() {
