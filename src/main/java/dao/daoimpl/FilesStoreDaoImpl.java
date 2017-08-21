@@ -1,7 +1,9 @@
-package dao;
+package dao.daoimpl;
 
+import dao.daointerfaces.FilesStoreDao;
 import model.FilesStore;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;

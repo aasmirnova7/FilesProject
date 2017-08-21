@@ -1,4 +1,4 @@
-package springsequrity;
+package config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -16,6 +16,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/hello_admin").setViewName("hello_admin");
         registry.addViewController("/forbidden").setViewName("forbidden");
         registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/error").setViewName("error");
+        registry.addViewController("/registration").setViewName("registration");
     }
 
 }

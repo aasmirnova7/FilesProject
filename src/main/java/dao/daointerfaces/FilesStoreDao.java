@@ -1,4 +1,4 @@
-package dao;
+package dao.daointerfaces;
 
 
 import model.FilesStore;

@@ -26,7 +26,7 @@ public class DBConfig {
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
         dataSource.setUsername("postgres");
-        dataSource.setPassword("postgres");
+        dataSource.setPassword("admin");
         return dataSource;
     }
 
@@ -42,7 +42,7 @@ public class DBConfig {
         properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL95Dialect");
         properties.put("hibernate.current_session_context_class","thread");
         properties.put("hibernate.show_sql","true");
-        properties.put("hibernate.hbm2ddl.auto","create");
+        properties.put("hibernate.hbm2ddl.auto","update");
 
         entityManagerFactoryBean.setJpaProperties(properties);
         return entityManagerFactoryBean;

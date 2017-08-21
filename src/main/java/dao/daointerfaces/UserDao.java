@@ -1,7 +1,5 @@
-package dao;
+package dao.daointerfaces;
 import model.User;
-
-import java.util.List;
 
 public interface UserDao {
     void save(User u);

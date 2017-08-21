@@ -1,6 +1,6 @@
-package dao;
+package dao.daoimpl;
 
-import model.FilesStore;
+import dao.daointerfaces.SpecialAccessFilesStoreDao;
 import model.SpecialAccessFilesStore;
 import org.springframework.stereotype.Repository;
 
