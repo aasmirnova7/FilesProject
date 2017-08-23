@@ -18,10 +18,8 @@ import javax.persistence.PersistenceContext;
 public class UserDaoTest {
     @Autowired
     PasswordEncoder passwordEncoder;
-
     @Autowired
     private UserDao userDao;
-
     @PersistenceContext
     private EntityManager em;
 
@@ -39,20 +37,17 @@ public class UserDaoTest {
     public void testFindById(){
         Assert.assertNotNull(userDao.find("1"));
     }
-
     @Test
     public void testSaveUser(){
         User user1 = new User("7","karl", "sidorov", "789");
         userDao.save(user1);
         Assert.assertNotNull(userDao.find(user1.getId()));
     }
-
     @Test
     public void testUserDelete(){
         userDao.delete("7");
         Assert.assertNull(userDao.find("7"));
     }
-
     @Test
     public void testUserChangeFirstName(){
         User userUnexpected = userDao.find("1");

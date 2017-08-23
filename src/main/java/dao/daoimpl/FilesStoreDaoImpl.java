@@ -22,20 +22,20 @@ public class FilesStoreDaoImpl implements FilesStoreDao {
 
     @Override
     @Transactional
-    public void save(FilesStore filesStore, String ... idAccessed){
-        TypedQuery<FilesStore> query = entityManager.createQuery("FROM FilesStore s WHERE s.fileName = :name AND s.user = :myuser", FilesStore.class);
-        query.setParameter("name", filesStore.getFileName());
-        query.setParameter("myuser",filesStore.getUser());
-        if (query.getResultList().isEmpty()){
-            entityManager.persist(filesStore);
-            if(filesStore.getPrivacy() == 2){
-                for(String id : idAccessed){
-                    specialAccessFilesStoreDao.save(filesStore, id);
+    public void save(FilesStore filesStore,String ... idAccessed){
+            TypedQuery<FilesStore> query = entityManager.createQuery("FROM FilesStore s WHERE s.fileName = :name AND s.user = :myuser", FilesStore.class);
+            query.setParameter("name", filesStore.getFileName());
+            query.setParameter("myuser", filesStore.getUser());
+            if (query.getResultList().isEmpty()) {
+                entityManager.persist(filesStore);
+                if (filesStore.getPrivacy() == 2) {
+                    for (String id : idAccessed) {
+                        specialAccessFilesStoreDao.save(filesStore, id);
+                    }
                 }
+            } else {
+                query.getResultList().get(0).setPrivacy(filesStore.getPrivacy());
             }
-        } else {
-            query.getResultList().get(0).setPrivacy(filesStore.getPrivacy());
-        }
     }
     @Override
     @Transactional
@@ -133,11 +133,11 @@ public class FilesStoreDaoImpl implements FilesStoreDao {
     @Override
     @Transactional
     public void addIdAccessed(FilesStore fs, String idAccessed, String login){
-        if(fs.getPrivacy() == 2) {
+       // if(fs.getPrivacy() == 2) {
             if (fs.getUser().getId().equals(login)) {
                 specialAccessFilesStoreDao.save(fs, idAccessed);
             }
-        }
+        //}
         //Если не добавляем, то выдвать сообщение
     }
 }

@@ -29,14 +29,14 @@ public class FilesStoreDaoTest{
     @PersistenceContext
     private EntityManager em;
 
-    @Before
-    public void before(){
-        User user = new User("1","vasya", "vasichkin", "123");
-        userDao.save(user);
-        FilesStore fs = new FilesStore("TTT",0, userDao.find("1"));
-        fsd.save(fs);
-        //fsId = fs.getNumber();
-    }
+//    @Before
+//    public void before(){
+//        User user = new User("1","vasya", "vasichkin", "123");
+//        userDao.save(user);
+//        FilesStore fs = new FilesStore("TTT",0, userDao.find("1"));
+//        fsd.save(fs);
+//        //fsId = fs.getNumber();
+//    }
     @Test
     public void testFind(){
         Assert.assertNotNull(fsd.find( "TTT","2"));

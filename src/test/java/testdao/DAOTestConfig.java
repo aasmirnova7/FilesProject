@@ -40,7 +40,7 @@ public class DAOTestConfig {
 
         Properties properties = new Properties();
         try {
-            properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("properties/hibernate.properties"));
+            properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("hibernate.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
