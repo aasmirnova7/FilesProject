@@ -5,10 +5,11 @@
     <title>Spring Security Example </title>
 </head>
 <body>
-<form th:action="@{/registration}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
+<form th:action="@{/registration}" method="POST">
+    <div><label> User Name : <input type="text" name="id"/> </label></div>
     <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><label> Repeat Password: <input type="password" name="repassword"/> </label></div>
+    <div><label> Name : <input type="text" name="name"/> </label></div>
+    <div><label> LastName : <input type="text" name="lastName"/> </label></div>
     <div><input type="submit" value="Register"/></div>
 </form>
 </body>

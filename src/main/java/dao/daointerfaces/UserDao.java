@@ -1,13 +1,14 @@
 package dao.daointerfaces;
 import model.User;
 
+import javax.persistence.EntityManager;
+
 public interface UserDao {
     void save(User u);
-    void delete(User u);
+    void delete(String login);
 
     User find(String id);
-    void changeFirstName(User u, String name);
-    void changeLastName(User u, String lastName);
-    void changePassword(User u, String password);
-    //List<User> getAll();
+    void changeFirstName(String id, String name,String login);
+    void changeLastName(String id, String lastName, String login);
+    void changePassword(String id, String password,String login);
 }

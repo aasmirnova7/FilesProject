@@ -1,6 +1,11 @@
 package model;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Set;
 
 @Entity
@@ -13,7 +18,8 @@ public class FilesStore {
     String fileName;
     Integer privacy; // 0 - all,1 - owner, 2 - for some users
 
-    @OneToMany(mappedBy = "filesStore",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "filesStore")//,orphanRemoval = true)//,cascade = CascadeType.ALL/*, orphanRemoval = true*/)
+    @Cascade(CascadeType.ALL)
     private Set<SpecialAccessFilesStore> specialAccessFilesStores;
     @ManyToOne
     @JoinColumn(name="id")

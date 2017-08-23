@@ -1,31 +1,35 @@
-package config;
+package testdao;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@Configuration //this is class of configuration
-@ComponentScan(basePackages = {"dao"}) //scan for annotated Spring component in package "dao"
+@Configuration
+@ComponentScan({"dao"})
 @EnableTransactionManagement
-public class DBConfig {
+public class DAOTestConfig {
+
 
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("postgres");
+        dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
+        dataSource.setUrl("jdbc:hsqldb:mem:dataSource");
+        dataSource.setUsername("sa");
+        dataSource.setPassword("");
         return dataSource;
     }
 
@@ -39,10 +43,10 @@ public class DBConfig {
 
         //отнести в properties
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL95Dialect");
-        properties.put("hibernate.current_session_context_class","thread");
+        properties.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+//        properties.put("hibernate.current_session_context_class","thread");
         properties.put("hibernate.show_sql","true");
-        properties.put("hibernate.hbm2ddl.auto","create");
+        properties.put("hibernate.hbm2ddl.auto","update");
 
         entityManagerFactoryBean.setJpaProperties(properties);
         return entityManagerFactoryBean;
@@ -55,4 +59,11 @@ public class DBConfig {
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder;
+    }
+
 }

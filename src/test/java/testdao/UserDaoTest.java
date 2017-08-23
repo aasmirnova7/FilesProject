@@ -1,10 +1,41 @@
 package testdao;
 
+import dao.daointerfaces.UserDao;
 import model.User;
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-public class UserDaoTest extends JPAHibernateTest{
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+//Доделать!!!
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {DAOTestConfig.class})
+public class UserDaoTest {
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserDao userDao;
+
+    @PersistenceContext
+    private EntityManager em;
+
+    @Before
+    public void before(){
+        User user = new User("1","vasya", "vasichkin", "123");
+        userDao.save(user);
+    }
+
+    @After
+    public void after(){
+        userDao.delete("1");
+    }
     @Test
     public void testFindById(){
         Assert.assertNotNull(userDao.find("1"));
@@ -17,33 +48,28 @@ public class UserDaoTest extends JPAHibernateTest{
         Assert.assertNotNull(userDao.find(user1.getId()));
     }
 
-    @Ignore
     @Test
-    public void testUserDelete(){ //Wrong
-        //User user = userDao.find("1");
-        userDao.delete(userDao.find("1"));
-        Assert.assertNull(userDao.find("1"));
+    public void testUserDelete(){
+        userDao.delete("7");
+        Assert.assertNull(userDao.find("7"));
     }
 
     @Test
     public void testUserChangeFirstName(){
-        User user = userDao.find("1");
         User userUnexpected = userDao.find("1");
-        userDao.changeFirstName(user,"adam");
-        Assert.assertNotEquals(user.getName(), userUnexpected.getName());
+        userDao.changeFirstName("1","adam","1");
+        Assert.assertNotEquals(userDao.find("1").getName(), userUnexpected.getName());
     }
     @Test
     public void testUserChangeLastName(){
-        User user = userDao.find("1");
         User userUnexpected = userDao.find("1");
-        userDao.changeLastName(user,"adov");
-        Assert.assertNotEquals(user.getLastName(), userUnexpected.getLastName());
+        userDao.changeLastName("1","adova","1");
+        Assert.assertNotEquals(userDao.find("1").getLastName(), userUnexpected.getLastName());
     }
     @Test
     public void testUserChangePassword(){
-        User user = userDao.find("1");
         User userUnexpected = userDao.find("1");
-        userDao.changePassword(user,"123");
-        Assert.assertNotEquals(user.getPassword(), userUnexpected.getPassword());
+        userDao.changePassword("1","13","1");
+        Assert.assertNotEquals(userDao.find("1").getPassword(), userUnexpected.getPassword());
     }
 }

@@ -2,6 +2,8 @@ package dao.daoimpl;
 
 import dao.daointerfaces.UserDao;
 import model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -14,18 +16,25 @@ public class UserDaoImpl implements UserDao {
     @PersistenceContext //injection of entityManager
     private EntityManager entityManager;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Override
     @Transactional //modify the information in the database, so we need a transaction in order to commit our changes.
     public void save(User user) {
-        //Если таблица не пустая, то проверить, нет ли повторов
-        entityManager.persist(user);
-
+        String password = passwordEncoder.encode(user.getPassword());
+        user.setPassword(password);
+        if(!entityManager.contains(user)) {
+            entityManager.persist(user);
+        }
     }
     @Override
     @Transactional
-    public void delete(User u) {
+    public void delete(String login) {
         //Если удаляем строку из табл., нужно удалить все его файлы
-        entityManager.remove(u);
+        User u = find(login);
+        //если есть тот который хотим удалить, то удаляем, если его нет, создадим и удалим
+        entityManager.remove(entityManager.contains(u) ? u : entityManager.merge(u));
     }
 
     @Override
@@ -35,29 +44,30 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @Transactional
-    public void changeFirstName(User u, String name) {
-        //Можно менять только владельцу
-        u.setName(name);
-        entityManager.merge(u);
+    public void changeFirstName(String id, String name, String login) {
+        User u = find(id);
+        if (login.equals(u.getId())) {
+            u.setName(name);
+            entityManager.merge(u);
+        }
     }
     @Override
     @Transactional
-    public void changeLastName(User u, String lastName) {
-        //Можно менять только владельцу
-        u.setLastName(lastName);
-        entityManager.merge(u);
+    public void changeLastName(String id, String lastName, String login) {
+        User u = find(login);
+        if (login.equals(u.getId())) {
+            u.setLastName(lastName);
+            entityManager.merge(u);
+        }
     }
     @Override
     @Transactional
-    public void changePassword(User u, String password) {
-        //Можно менять только владельцу
-        u.setPassword(password);
-        entityManager.merge(u);
+    public void changePassword(String id, String password, String login) {
+        User u = find(login);
+        if (login.equals(u.getId())) {
+            u.setPassword(password);
+            entityManager.merge(u);
+        }
     }
 
-   /* @Override
-    public List<User> getAll() {
-        Query query = entityManager.createQuery("FROM User ");
-        return query.getResultList();
-    }*/
 }

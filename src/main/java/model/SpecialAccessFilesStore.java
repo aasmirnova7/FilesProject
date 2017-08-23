@@ -1,6 +1,11 @@
 package model;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="specialstore")
@@ -11,18 +16,18 @@ public class SpecialAccessFilesStore {
     @ManyToOne
     @JoinColumn(name="fileName")
     private FilesStore filesStore;
-    Long idAccessed;
+    String idAccessed;
 
 
     public SpecialAccessFilesStore(){}
-    public SpecialAccessFilesStore( Long idAccessed, FilesStore filesStore){
+    public SpecialAccessFilesStore( String idAccessed, FilesStore filesStore){
         this.setFilesStore(filesStore);
         this.idAccessed = idAccessed;
     }
-    public Long getIdAccessed() {
+    public String getIdAccessed() {
         return idAccessed;
     }
-    public void setIdAccessed(Long idAccessed) {
+    public void setIdAccessed(String idAccessed) {
         this.idAccessed = idAccessed;
     }
     public Integer getNumber() {

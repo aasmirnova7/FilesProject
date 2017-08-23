@@ -24,10 +24,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String id = authentication.getName();
-        String password = passwordEncoder.encode(authentication.getCredentials().toString());
+        String password = authentication.getCredentials().toString();
         User user = userDao.find(id);
-        //Надо будет сравнивать чистый authentication.getCredentials().toString() с хешом user.getPassword()
-        if (id.equals(user.getId()) && passwordEncoder.matches(user.getPassword(),password) ){
+        if (id.equals(user.getId()) && passwordEncoder.matches(password,user.getPassword()) ){
             return new UsernamePasswordAuthenticationToken(id, password, new ArrayList<>());
         } else {
             return null;

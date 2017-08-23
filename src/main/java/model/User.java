@@ -1,8 +1,7 @@
 package model;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import javax.persistence.*;
 import java.util.Set;
 
@@ -16,7 +15,8 @@ public class User {
     private String password;
     private String name;
     private String lastName;
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")//,orphanRemoval = true)//,cascade = CascadeType.ALL)
+    @Cascade(CascadeType.ALL)
     private Set<FilesStore> filesStore;
 
     public User() {
