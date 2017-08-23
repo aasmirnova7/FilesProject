@@ -22,17 +22,33 @@ public class FilesStoreDaoImpl implements FilesStoreDao {
 
     @Override
     @Transactional
-    public void save(FilesStore filesStore) {
-        if (!entityManager.contains(filesStore)){
+    public void save(FilesStore filesStore, String ... idAccessed){
+        TypedQuery<FilesStore> query = entityManager.createQuery("FROM FilesStore s WHERE s.fileName = :name AND s.user = :myuser", FilesStore.class);
+        query.setParameter("name", filesStore.getFileName());
+        query.setParameter("myuser",filesStore.getUser());
+        if (query.getResultList().isEmpty()){
             entityManager.persist(filesStore);
+            if(filesStore.getPrivacy() == 2){
+                for(String id : idAccessed){
+                    specialAccessFilesStoreDao.save(filesStore, id);
+                }
+            }
+        } else {
+            query.getResultList().get(0).setPrivacy(filesStore.getPrivacy());
         }
-
     }
     @Override
     @Transactional
-    public void delete(FilesStore filesStore) {
-        FilesStore merged = entityManager.contains(filesStore) ? filesStore : entityManager.merge(filesStore);
-        entityManager.remove(merged);
+    public void delete(String fileName, String myId) {
+        TypedQuery<FilesStore> query = entityManager.createQuery("FROM FilesStore s WHERE s.fileName = :name", FilesStore.class);
+        query.setParameter("name", fileName);
+        List<FilesStore> list = query.getResultList();
+        for(FilesStore fs: list){
+            if(fs.getUser().getId().equals(myId)){
+                entityManager.remove(fs);
+                break;
+            }
+        }
     }
 
     @Override
@@ -101,37 +117,27 @@ public class FilesStoreDaoImpl implements FilesStoreDao {
         }
     }
 
-    //доделать
     @Override
     @Transactional
-    public void deleteIdAccessed(FilesStore fs, String idAccessed, String login){
-        //SpecialAccessFilesStoreDao safsd = new SpecialAccessFilesStoreDaoImpl();
+    public void deleteIdAccessed(FilesStore fs, String login, String idAccessed){
         if(fs.getUser().getId().equals(login)){
             for (SpecialAccessFilesStore safs: findSpecialFiles(fs)){
                 if (safs.getIdAccessed().equals(idAccessed)){
-                    //safsd.delete(safs);
                     specialAccessFilesStoreDao.delete(safs);
                     break;
                 }
             }
-
         }
     }
-    //доделать
+
     @Override
     @Transactional
     public void addIdAccessed(FilesStore fs, String idAccessed, String login){
-        SpecialAccessFilesStoreDao safsd = new SpecialAccessFilesStoreDaoImpl();
-        if(fs.getUser().getId().equals(login)){
-            boolean flag = true;
-            for (SpecialAccessFilesStore safs: findSpecialFiles(fs)){
-                if (safs.getIdAccessed().equals(idAccessed)){
-                    flag = false;
-                    break;
-                }
+        if(fs.getPrivacy() == 2) {
+            if (fs.getUser().getId().equals(login)) {
+                specialAccessFilesStoreDao.save(fs, idAccessed);
             }
-            safsd.save(new SpecialAccessFilesStore(idAccessed,fs));
-
         }
+        //Если не добавляем, то выдвать сообщение
     }
 }

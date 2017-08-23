@@ -7,7 +7,7 @@ import model.SpecialAccessFilesStore;
 import java.util.List;
 
 public interface SpecialAccessFilesStoreDao {
-    void save(SpecialAccessFilesStore filesStore);
+    void save(FilesStore filesStore, String idAccessed);
     void delete(SpecialAccessFilesStore filesStore);
 
 }

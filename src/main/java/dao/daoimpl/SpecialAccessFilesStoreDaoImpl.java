@@ -1,11 +1,13 @@
 package dao.daoimpl;
 
 import dao.daointerfaces.SpecialAccessFilesStoreDao;
+import model.FilesStore;
 import model.SpecialAccessFilesStore;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 @Repository
@@ -16,10 +18,13 @@ public class SpecialAccessFilesStoreDaoImpl implements SpecialAccessFilesStoreDa
 
     @Override
     @Transactional
-    public void save(SpecialAccessFilesStore filesStore) {
-        //Если таблица не пустая, то проверить, нет ли повторов
-        if(!entityManager.contains(filesStore)) {
-            entityManager.persist(filesStore);
+    public void save(FilesStore filesStore, String idAccessed) {
+        TypedQuery<SpecialAccessFilesStore> query = entityManager.createQuery("FROM SpecialAccessFilesStore s WHERE s.filesStore= :file AND s.idAccessed = :id", SpecialAccessFilesStore.class);
+        query.setParameter("file", filesStore);
+        query.setParameter("id",idAccessed);
+        if(query.getResultList().isEmpty()){
+            SpecialAccessFilesStore safs = new SpecialAccessFilesStore(idAccessed,filesStore);
+            entityManager.persist(safs);
         }
     }
     @Override

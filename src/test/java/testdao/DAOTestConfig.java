@@ -2,10 +2,7 @@ package testdao;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.*;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -15,13 +12,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.util.Properties;
 
 @Configuration
 @ComponentScan({"dao"})
 @EnableTransactionManagement
 public class DAOTestConfig {
-
 
     @Bean
     public DataSource dataSource() {
@@ -41,13 +38,12 @@ public class DAOTestConfig {
         entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         entityManagerFactoryBean.setPackagesToScan("model");
 
-        //отнести в properties
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-//        properties.put("hibernate.current_session_context_class","thread");
-        properties.put("hibernate.show_sql","true");
-        properties.put("hibernate.hbm2ddl.auto","update");
-
+        try {
+            properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("properties/hibernate.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         entityManagerFactoryBean.setJpaProperties(properties);
         return entityManagerFactoryBean;
     }

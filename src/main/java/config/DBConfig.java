@@ -12,11 +12,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.util.Properties;
 
 @Configuration //this is class of configuration
 @ComponentScan(basePackages = {"dao"}) //scan for annotated Spring component in package "dao"
 @EnableTransactionManagement
+//@PropertySource("classpath:properties/hibernate.properties")
 public class DBConfig {
 
     @Bean
@@ -25,7 +27,7 @@ public class DBConfig {
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
         dataSource.setUsername("postgres");
-        dataSource.setPassword("postgres");
+        dataSource.setPassword("admin");
         return dataSource;
     }
 
@@ -37,13 +39,12 @@ public class DBConfig {
         entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         entityManagerFactoryBean.setPackagesToScan("model");
 
-        //отнести в properties
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL95Dialect");
-        properties.put("hibernate.current_session_context_class","thread");
-        properties.put("hibernate.show_sql","true");
-        properties.put("hibernate.hbm2ddl.auto","create");
-
+        try {
+            properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("properties/hibernate.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         entityManagerFactoryBean.setJpaProperties(properties);
         return entityManagerFactoryBean;
     }

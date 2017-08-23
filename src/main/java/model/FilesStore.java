@@ -17,13 +17,13 @@ public class FilesStore {
     Integer number;
     String fileName;
     Integer privacy; // 0 - all,1 - owner, 2 - for some users
-
     @OneToMany(mappedBy = "filesStore")//,orphanRemoval = true)//,cascade = CascadeType.ALL/*, orphanRemoval = true*/)
     @Cascade(CascadeType.ALL)
     private Set<SpecialAccessFilesStore> specialAccessFilesStores;
     @ManyToOne
     @JoinColumn(name="id")
     private User user;
+
     public FilesStore(){}
     public FilesStore(String fileName, Integer privacy, User user){
         this.fileName = fileName;

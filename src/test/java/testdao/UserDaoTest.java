@@ -9,11 +9,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-//Доделать!!!
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DAOTestConfig.class})
 public class UserDaoTest {
@@ -31,11 +30,11 @@ public class UserDaoTest {
         User user = new User("1","vasya", "vasichkin", "123");
         userDao.save(user);
     }
-
     @After
     public void after(){
         userDao.delete("1");
     }
+
     @Test
     public void testFindById(){
         Assert.assertNotNull(userDao.find("1"));
