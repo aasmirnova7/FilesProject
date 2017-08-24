@@ -4,7 +4,6 @@ import dao.daointerfaces.SpecialAccessFilesStoreDao;
 import model.FilesStore;
 import model.SpecialAccessFilesStore;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -29,10 +28,11 @@ public class SpecialAccessFilesStoreDaoImpl implements SpecialAccessFilesStoreDa
             }
         }
         //Иначе говорим, что нужно менять privacy
+        //Если не добавляем, то выдвать сообщение
     }
     @Override
     @Transactional
     public void delete(SpecialAccessFilesStore filesStore) {
-        entityManager.remove(filesStore);
+        entityManager.remove(entityManager.find(filesStore.getClass(),filesStore.getNumber()));
     }
 }

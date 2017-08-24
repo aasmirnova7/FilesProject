@@ -1,4 +1,4 @@
-package testdao;
+package testDAO;
 
 import dao.daointerfaces.UserDao;
 import model.User;
@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @ContextConfiguration(classes = {DAOTestConfig.class})
 public class UserDaoTest {
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private UserDao userDao;
     @PersistenceContext
@@ -49,21 +49,11 @@ public class UserDaoTest {
         Assert.assertNull(userDao.find("7"));
     }
     @Test
-    public void testUserChangeFirstName(){
-        User userUnexpected = userDao.find("1");
-        userDao.changeFirstName("1","adam","1");
-        Assert.assertNotEquals(userDao.find("1").getName(), userUnexpected.getName());
-    }
-    @Test
-    public void testUserChangeLastName(){
-        User userUnexpected = userDao.find("1");
-        userDao.changeLastName("1","adova","1");
-        Assert.assertNotEquals(userDao.find("1").getLastName(), userUnexpected.getLastName());
-    }
-    @Test
-    public void testUserChangePassword(){
-        User userUnexpected = userDao.find("1");
-        userDao.changePassword("1","13","1");
-        Assert.assertNotEquals(userDao.find("1").getPassword(), userUnexpected.getPassword());
+    public void change() {
+        User u = userDao.find("1");
+        User unexpected = userDao.find("1");
+        u.setLastName("qqqqq");
+        userDao.mergeUser(u);
+        Assert.assertNotEquals(unexpected,userDao.find("1"));
     }
 }

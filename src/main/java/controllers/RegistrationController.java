@@ -1,6 +1,5 @@
 package controllers;
 
-import dao.daointerfaces.UserDao;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,12 +8,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.ui.ModelMap;
+import services.interfaces.UserService;
+
 
 
 @Controller
 public class RegistrationController {
     @Autowired
-    UserDao userDao;
+    private UserService userService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String showRegister() {
@@ -25,7 +26,7 @@ public class RegistrationController {
         if (result.hasErrors()) {
             return "registration";
         }
-        if (userDao.find(user.getId())!=null){
+        if (userService.find(user.getId())!=null){
             return "redirect:/repeat_registration_error";
         }
         model.addAttribute("id",user.getId());
@@ -33,7 +34,7 @@ public class RegistrationController {
         model.addAttribute("name", user.getName());
         model.addAttribute("lastName", user.getLastName());
         if (!result.hasErrors()&&!user.getId().equals("")&&!user.getName().equals("")&&!user.getLastName().equals("")&&!user.getPassword().equals("")) {
-            userDao.save(user);
+            userService.save(user);
         }
         else {
             return "registration";

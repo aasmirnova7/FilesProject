@@ -32,7 +32,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
                 .antMatchers("/repeat_registration_error").permitAll()
-                //.antMatchers("/hello_admin").hasRole("ADMIN")
                 .antMatchers("/registration").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -45,9 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll();
-//                .and()
-//                .exceptionHandling()
-//                .accessDeniedPage("/forbidden");
     }
     @Bean
     public PasswordEncoder passwordEncoder(){

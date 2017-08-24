@@ -16,9 +16,8 @@ import java.io.IOException;
 import java.util.Properties;
 
 @Configuration //this is class of configuration
-@ComponentScan(basePackages = {"dao"}) //scan for annotated Spring component in package "dao"
+@ComponentScan(basePackages = {"dao","services"}) //scan for annotated Spring component in package "dao"
 @EnableTransactionManagement
-//@PropertySource("classpath:properties/hibernate.properties")
 public class DBConfig {
 
     @Bean

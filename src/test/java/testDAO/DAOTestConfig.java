@@ -1,4 +1,4 @@
-package testdao;
+package testDAO;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan({"dao"})
+@ComponentScan(value = {"dao","services"})
 @EnableTransactionManagement
 public class DAOTestConfig {
 

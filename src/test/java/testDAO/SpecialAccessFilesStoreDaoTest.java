@@ -1,13 +1,11 @@
-package testdao;
+package testDAO;
 
 import dao.daointerfaces.FilesStoreDao;
 import dao.daointerfaces.SpecialAccessFilesStoreDao;
 import dao.daointerfaces.UserDao;
 import model.FilesStore;
 import model.User;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-//Доделать
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DAOTestConfig.class})
 public class SpecialAccessFilesStoreDaoTest{
@@ -32,21 +30,15 @@ public class SpecialAccessFilesStoreDaoTest{
     @Test
     public void testSaveSpecialAccessedFile(){
         User user = new User("1","vasya", "vasichkin", "13");
-        User user1 = new User("2","kate", "trololo", "235");
         userDao.save(user);
         FilesStore fs = new FilesStore("TTT",2,user);
-        fsd.save(fs,"2");
-        Assert.assertNotNull(fsd.findSpecialFiles(fs));
+        fsd.save(fs);
+        safsd.save(fs,"1");
+        Assert.assertNotNull(fsd.findSpecialFiles(fs).get(0));
     }
     @Test
     public void testDeleteSaveSpecialAccessedFile(){
-        User user = new User("3","petya", "vasichkin", "13");
-        User user1 = new User("4","olga", "trololo", "235");
-        userDao.save(user);
-        FilesStore fs = new FilesStore("AAA",2,user);
-        fsd.save(fs,"4");
-        fsd.deleteIdAccessed(fs,"3","4");
-        System.out.println("!!!!!!!!"+fsd.findSpecialFiles(fs));
-        Assert.assertEquals(fsd.findSpecialFiles(fs).isEmpty(),true);
+        safsd.delete(fsd.findSpecialFiles(fsd.findWithFileName("TTT").get(0)).get(0));
+        Assert.assertTrue(fsd.findSpecialFiles(fsd.findWithFileName("TTT").get(0)).isEmpty());
     }
 }

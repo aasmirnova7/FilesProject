@@ -14,9 +14,9 @@ public class FilesStore {
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "storeGenerator")
     @SequenceGenerator(name="storeGenerator", sequenceName="storeGenerator", allocationSize=1)
-    Integer number;
-    String fileName;
-    Integer privacy; // 0 - all,1 - owner, 2 - for some users
+    private Integer number;
+    private String fileName;
+    private Integer privacy; // 0 - all,1 - owner, 2 - for some users
     @OneToMany(mappedBy = "filesStore")//,orphanRemoval = true)//,cascade = CascadeType.ALL/*, orphanRemoval = true*/)
     @Cascade(CascadeType.ALL)
     private Set<SpecialAccessFilesStore> specialAccessFilesStores;

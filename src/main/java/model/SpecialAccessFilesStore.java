@@ -12,11 +12,11 @@ import javax.persistence.Table;
 public class SpecialAccessFilesStore {
     @Id
     @GeneratedValue(strategy=GenerationType.TABLE) // Для каждого user генерируем новый id
-    Integer number;
+    private Integer number;
     @ManyToOne
     @JoinColumn(name="fileName")
     private FilesStore filesStore;
-    String idAccessed;
+    private String idAccessed;
 
 
     public SpecialAccessFilesStore(){}
