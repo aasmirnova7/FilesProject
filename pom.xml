@@ -4,9 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>1</groupId>
-    <artifactId>2</artifactId>
+    <groupId>com.ncedu</groupId>
+    <artifactId>1</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <build>
         <plugins>
@@ -18,14 +19,8 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
         </plugins>
     </build>
-    <packaging>jar</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -38,6 +33,12 @@
         <spring.version>4.3.9.RELEASE</spring.version>
         <postgresql.version>42.1.4</postgresql.version>
     </properties>
+    <modules>
+        <module>models</module>
+        <module>dao</module>
+        <module>web</module>
+        <module>core</module>
+    </modules>
 
     <dependencies>
         <!-- for Hibernate-->
@@ -106,7 +107,6 @@
             <version>2.4.0</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
 
