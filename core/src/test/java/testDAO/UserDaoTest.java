@@ -39,14 +39,16 @@ public class UserDaoTest {
     }
     @Test
     public void testSaveUser(){
-        User user1 = new User("7","karl", "sidorov", "789");
+        User user1 = new User("2","karl", "sidorov", "789");
         userDao.save(user1);
         Assert.assertNotNull(userDao.find(user1.getId()));
     }
     @Test
     public void testUserDelete(){
-        userDao.delete("7");
-        Assert.assertNull(userDao.find("7"));
+        User user1 = new User("3","vaniya", "ivanov", "456");
+        userDao.save(user1);
+        userDao.delete("3");
+        Assert.assertNull(userDao.find("3"));
     }
     @Test
     public void change() {

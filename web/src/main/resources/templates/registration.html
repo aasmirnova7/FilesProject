@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Spring Security Example </title>
+    <title>Registration page</title>
 </head>
 <body>
 <div align="center">
@@ -17,7 +17,7 @@
             <tr>
                 <td>Password: </td>
                 <td><input type="password" th:field="*{password}" /></td>
-                <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</td>
+                <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</td>
             </tr>
             <tr>
                 <td>Confirm password: </td>
@@ -31,7 +31,7 @@
             <tr>
                 <td>Last name : </td>
                 <td><input type="text" th:field="*{lastName}" /></td>
-                <td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Name Error</td>
+                <td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last Name Error</td>
             </tr>
             <tr>
                 <td><button type="submit">Register</button></td>

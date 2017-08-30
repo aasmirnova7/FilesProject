@@ -11,4 +11,6 @@ public interface FilesStoreService {
     void changeLevel(FilesStore fs, Integer level, String login);
     void deleteIdAccessed(FilesStore fs, String login, String idAccessed);
     void addIdAccessed(FilesStore fs, String login, String idAccessed);
+    List<String> findAll(String login);
+
 }

@@ -35,9 +35,10 @@ public class RegistrationController {
 
         if (!result.hasErrors()) {
             userService.save(user);
+            return "redirect:/login";
         } else {
             return "registration";
         }
-        return "redirect:/login";
+
     }
 }

@@ -3,6 +3,7 @@ package dao.impl;
 import dao.FilesStoreDao;
 import model.FilesStore;
 import model.SpecialAccessFilesStore;
+import model.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -51,5 +52,12 @@ public class FilesStoreDaoImpl implements FilesStoreDao {
     public void mergeFileStore(FilesStore filesStore){
         entityManager.merge(filesStore);
     }
+
+//    @Override
+//    public List<FilesStore> findWithUser(User user){
+//        TypedQuery<FilesStore> query = entityManager.createQuery("FROM FilesStore s WHERE s.user = :myuser", FilesStore.class);
+//        query.setParameter("myuser",user);
+//        return query.getResultList();
+//    }
 
 }

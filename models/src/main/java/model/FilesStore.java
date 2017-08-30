@@ -16,7 +16,8 @@ public class FilesStore {
     @SequenceGenerator(name="storeGenerator", sequenceName="storeGenerator", allocationSize=1)
     private Integer number;
     private String fileName;
-    private Integer privacy; // 0 - all,1 - owner, 2 - for some users
+    private Integer privacy;// 0 - all,1 - owner, 2 - for some users
+    private byte[] data;
     @OneToMany(mappedBy = "filesStore")//,orphanRemoval = true)//,cascade = CascadeType.ALL/*, orphanRemoval = true*/)
     @Cascade(CascadeType.ALL)
     private Set<SpecialAccessFilesStore> specialAccessFilesStores;
@@ -25,10 +26,11 @@ public class FilesStore {
     private User user;
 
     public FilesStore(){}
-    public FilesStore(String fileName, Integer privacy, User user){
+    public FilesStore(String fileName, Integer privacy, User user, byte[] data){
         this.fileName = fileName;
         this.setUser(user);
         this.privacy = privacy;
+        this.data = data;
     }
 
     public String getFileName() {
@@ -48,6 +50,12 @@ public class FilesStore {
     }
     public void setNumber(Integer number) {
         this.number = number;
+    }
+    public byte[] getData() {
+        return data;
+    }
+    public void setData(byte[] data) {
+        this.data = data;
     }
     public User getUser() {
         return user;

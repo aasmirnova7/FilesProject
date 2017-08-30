@@ -15,8 +15,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.MultipartConfigElement;
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.util.Properties;
 
 @Configuration //this is class of configuration
 @ComponentScan(basePackages = {"dao","services"}) //scan for annotated Spring component in package "dao"
@@ -30,7 +28,7 @@ public class DBConfig {
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
         dataSource.setUsername("postgres");
-        dataSource.setPassword("admin");
+        dataSource.setPassword("postgres");
         return dataSource;
     }
 

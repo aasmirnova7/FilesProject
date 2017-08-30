@@ -2,6 +2,8 @@ package dao;
 
 import model.FilesStore;
 import model.SpecialAccessFilesStore;
+import model.User;
+
 import java.util.List;
 
 public interface FilesStoreDao {
@@ -11,4 +13,5 @@ public interface FilesStoreDao {
     void delete(FilesStore file);
     void mergeFileStore(FilesStore filesStore);
     List<SpecialAccessFilesStore> findSpecialFiles(FilesStore filesStore);
+    List<FilesStore> findWithUser(User user);
 }
