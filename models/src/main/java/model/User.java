@@ -11,8 +11,8 @@ public class User {
     @Id
     @Column(name = "id")
     private String id;
-    //поменяли integer - string
     private String password;
+    private String confPassword;
     private String name;
     private String lastName;
     @OneToMany(mappedBy = "user")//,orphanRemoval = true)//,cascade = CascadeType.ALL)
@@ -40,6 +40,12 @@ public class User {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+    public String getConfPassword() {
+        return confPassword;
+    }
+    public void setConfPassword(String confPassword) {
+        this.confPassword = confPassword;
     }
     public String getName() {
         return name;

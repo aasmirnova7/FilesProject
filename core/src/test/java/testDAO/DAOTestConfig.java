@@ -17,6 +17,7 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan(value = {"dao","services"})
+@PropertySource("hibernate.properties")
 @EnableTransactionManagement
 public class DAOTestConfig {
 
@@ -37,14 +38,6 @@ public class DAOTestConfig {
         entityManagerFactoryBean.setDataSource(dataSource);
         entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         entityManagerFactoryBean.setPackagesToScan("model");
-
-        Properties properties = new Properties();
-        try {
-            properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("hibernate.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        entityManagerFactoryBean.setJpaProperties(properties);
         return entityManagerFactoryBean;
     }
 

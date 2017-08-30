@@ -15,7 +15,7 @@ import auth.CustomAuthenticationProvider;
 //Возможности выхода-входа на стр.
 @Configuration
 @EnableWebSecurity
-@ComponentScan(basePackages = {"auth"})
+@ComponentScan(basePackages = {"auth", "validator"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -31,7 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
-                .antMatchers("/repeat_registration_error").permitAll()
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/error").permitAll()
                 .antMatchers("/Upload").permitAll()
@@ -40,10 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .failureForwardUrl("/error")
                 .permitAll()
-                .and()
-                .exceptionHandling()
-                .accessDeniedPage("/error")
                 .and()
                 .logout()
                 .permitAll();

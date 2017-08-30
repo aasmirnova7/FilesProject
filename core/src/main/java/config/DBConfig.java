@@ -6,6 +6,7 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -19,6 +20,7 @@ import java.util.Properties;
 
 @Configuration //this is class of configuration
 @ComponentScan(basePackages = {"dao","services"}) //scan for annotated Spring component in package "dao"
+@PropertySource("hibernate.properties")
 @EnableTransactionManagement
 public class DBConfig {
 
@@ -28,7 +30,7 @@ public class DBConfig {
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
         dataSource.setUsername("postgres");
-        dataSource.setPassword("postgres");
+        dataSource.setPassword("admin");
         return dataSource;
     }
 
@@ -39,14 +41,6 @@ public class DBConfig {
         entityManagerFactoryBean.setDataSource(dataSource);
         entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         entityManagerFactoryBean.setPackagesToScan("model");
-
-        Properties properties = new Properties();
-        try {
-            properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("properties/hibernate.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        entityManagerFactoryBean.setJpaProperties(properties);
         return entityManagerFactoryBean;
     }
 

@@ -1,16 +1,47 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.w3.org/1999/xhtml">
 <head>
     <title>Spring Security Example </title>
 </head>
 <body>
-<form th:action="@{/registration}" method="POST">
-    <div><label> User Name : <input type="text" name="id"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><label> Name : <input type="text" name="name"/> </label></div>
-    <div><label> LastName : <input type="text" name="lastName"/> </label></div>
-    <div><input type="submit" value="Register"/></div>
+<div align="center">
+<form action="#" th:action="@{/registration}" th:object="${user}" method="POST">
+        <table>
+            <tr>
+                <td>Login : </td>
+                <td><input type="text" th:field="*{id}" /></td>
+                <td th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Id Error</td>
+            </tr>
+            <tr>
+                <td>Password: </td>
+                <td><input type="password" th:field="*{password}" /></td>
+                <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</td>
+            </tr>
+            <tr>
+                <td>Confirm password: </td>
+                <td><input type="password" th:field="*{confPassword}" /></td>
+            </tr>
+            <tr>
+                <td>Name:</td>
+                <td><input type="text" th:field="*{name}" /></td>
+                <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+            </tr>
+            <tr>
+                <td>Last name : </td>
+                <td><input type="text" th:field="*{lastName}" /></td>
+                <td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Name Error</td>
+            </tr>
+            <tr>
+                <td><button type="submit">Register</button></td>
+            </tr>
+        </table>
+    <div>
+        <p>Click <a th:href="@{/login}">LOGIN</a> to login</p>
+    </div>
 </form>
+</div>
+
 </body>
 </html>
