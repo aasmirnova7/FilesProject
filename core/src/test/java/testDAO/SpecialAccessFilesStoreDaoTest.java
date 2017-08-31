@@ -26,23 +26,23 @@ public class SpecialAccessFilesStoreDaoTest{
     private SpecialAccessFilesStoreDao safsd;
     @PersistenceContext
     private EntityManager em;
-//    @Test
-//    public void testSaveSpecialAccessedFile(){
-//        User user = new User("1","vasya", "vasichkin", "123");
-//        userDao.save(user);
-//        FilesStore fs = new FilesStore("TTT",2,user);
-//        fsd.save(fs);
-//        safsd.save(fs,"1");
-//        Assert.assertNotNull(fsd.findSpecialFiles(fs).get(0));
-//    }
-//    @Test
-//    public void testDeleteSaveSpecialAccessedFile(){
-//        User user = new User("2","katya", "ivanova", "456");
-//        userDao.save(user);
-//        FilesStore fs = new FilesStore("AAA",2,user);
-//        fsd.save(fs);
-//        safsd.save(fs,"1");
-//        safsd.delete(fsd.findSpecialFiles(fsd.findWithFileName("AAA").get(0)).get(0));
-//        Assert.assertTrue(fsd.findSpecialFiles(fsd.findWithFileName("AAA").get(0)).isEmpty());
-//    }
+    @Test
+    public void testSaveSpecialAccessedFile(){
+        User user = new User("1","vasya", "vasichkin", "123");
+        userDao.save(user);
+        FilesStore fs = new FilesStore("TTT",2,user, "QQQ".getBytes());
+        fsd.save(fs);
+        safsd.save(fs,"1");
+        Assert.assertNotNull(fsd.findSpecialFiles(fs).get(0));
+    }
+    @Test
+    public void testDeleteSaveSpecialAccessedFile(){
+        User user = new User("2","katya", "ivanova", "456");
+        userDao.save(user);
+        FilesStore fs = new FilesStore("AAA",2,user, "WWWW".getBytes());
+        fsd.save(fs);
+        safsd.save(fs,"1");
+        safsd.delete(fsd.findSpecialFiles(fsd.findWithFileName("AAA").get(0)).get(0));
+        Assert.assertTrue(fsd.findSpecialFiles(fsd.findWithFileName("AAA").get(0)).isEmpty());
+    }
 }

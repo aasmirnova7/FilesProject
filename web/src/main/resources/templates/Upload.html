@@ -5,19 +5,19 @@
     <title>Upload Your File</title>
 </head>
 <body>
-<div align="center">
-    <h1>Upload Your File</h1>
-    <form th:action="@{/Upload}"  method="POST" enctype="multipart/form-data">
-        <table border="0">
-            <tr>
-                <td>Pick file:</td>
-                <td><input type="file" name="file"  /></td>
-            </tr>
-            <tr>
-                <td><input type="submit" value="Upload"/></td>
-            </tr>
-        </table>
-    </form>
-</div>
+    <div align="center">
+        <h1>Upload Your File</h1>
+        <form  th:action="@{/Upload}"  method="POST" enctype="multipart/form-data">
+            <table>
+                <tr>
+                    <td>Pick file:</td>
+                    <td><input type="file" name="file"/></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Upload"/></td>
+                </tr>
+            </table>
+        </form>
+    </div>
 </body>
 </html>

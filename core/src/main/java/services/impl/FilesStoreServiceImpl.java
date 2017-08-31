@@ -10,9 +10,6 @@ import org.springframework.stereotype.Service;
 import services.FilesStoreService;
 import services.UserService;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,13 +17,10 @@ import java.util.List;
 public class FilesStoreServiceImpl implements FilesStoreService{
     @Autowired
     private FilesStoreDao filesStoreDao;
-
     @Autowired
     private UserService userService;
     @Autowired
     private SpecialAccessFilesStoreDao safsd;
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @Override
     public void save(FilesStore filesStore,String ... idAccessed){
@@ -126,10 +120,8 @@ public class FilesStoreServiceImpl implements FilesStoreService{
     @Override
     public List<String> findAll(String login){
         User user = userService.find(login);
-        TypedQuery<FilesStore> query = entityManager.createQuery("FROM FilesStore s WHERE s.user = :myuser", FilesStore.class);
-        query.setParameter("myuser",user);
         List<String> names = new ArrayList<>();
-        for (FilesStore filesStore:query.getResultList()){
+        for (FilesStore filesStore: filesStoreDao.findWithUser(user)){
             names.add(filesStore.getFileName());
         }
         return names;

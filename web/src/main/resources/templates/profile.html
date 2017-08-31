@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Profile page</title>
+</head>
+<body>
+    <div align="center">
+        <form  th:action="@{/profile}"  method="POST">
+            <table>
+                <tr>
+                    <td>Name: </td>
+                    <td><h4 th:text="${name}"/></td>
+                </tr>
+                <tr>
+                    <td>New Name: </td>
+                    <td><input type="text" name="newName" /></td>
+                    <td th:text="${errorFirstName}">...</td>
+                </tr>
+                <tr>
+                    <td>Last Name: </td>
+                    <td><h4 th:text="${lastName}"/></td>
+                </tr>
+                <tr>
+                    <td>New Last Name: </td>
+                    <td><input type="text" name="newLastName" /></td>
+                    <td th:text="${errorLastName}">...</td>
+                </tr>
+                <tr>
+                    <td>Password: </td>
+                    <td><h4 th:text="${password}"/></td>
+                </tr>
+                <tr>
+                    <td>New Password: </td>
+                    <td><input type="password" name="newPassword" /></td>
+                    <td th:text="${errorPassword}">...</td>
+                </tr>
+                <tr>
+                    <td>Repeat New Password: </td>
+                    <td><input type="password" name="repeatPassword" /></td>
+                    <td th:text="${errorRepeatPassword}">...</td>
+                </tr>
+                <tr>
+                    <td><button type="submit">Commit</button></td>
+                </tr>
+
+            </table>
+            <div>
+                <p>Click <a th:href="@{/hello_all}">Home</a> to return on Home Page</p>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

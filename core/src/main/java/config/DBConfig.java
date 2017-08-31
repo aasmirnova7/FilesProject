@@ -28,7 +28,7 @@ public class DBConfig {
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
         dataSource.setUsername("postgres");
-        dataSource.setPassword("postgres");
+        dataSource.setPassword("admin");
         return dataSource;
     }
 
@@ -53,8 +53,8 @@ public class DBConfig {
     @Bean
     MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
-        factory.setMaxFileSize("128KB");
-        factory.setMaxRequestSize("128KB");
+//        factory.setMaxFileSize("128KB");
+//        factory.setMaxRequestSize("128KB");
         return factory.createMultipartConfig();
     }
 }

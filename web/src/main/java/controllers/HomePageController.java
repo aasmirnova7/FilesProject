@@ -18,8 +18,13 @@ public class HomePageController {
     private UserService userService;
 
     @RequestMapping(value = "/hello_all", method = RequestMethod.GET)
-    public String showHomePage(HttpServletRequest request) {
-        return "hello_all";
+    public ModelAndView showHomePage() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        ModelAndView model = new ModelAndView("hello_all");
+        model.addObject("firstName",userService.find(name).getName());
+        model.addObject("lastName",userService.find(name).getLastName());
+        return model;
     }
 
     @RequestMapping(value = "/hello_all", method = RequestMethod.POST)
@@ -27,8 +32,9 @@ public class HomePageController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         ModelAndView model = new ModelAndView("hello_all");
+        model.addObject("firstName",userService.find(name).getName());
+        model.addObject("lastName",userService.find(name).getLastName());
         model.addObject("strings",filesStoreService.findAll(name));
         return model;
     }
-
 }

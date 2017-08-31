@@ -7,7 +7,7 @@ public interface UserService {
     void delete(String login);
 
     User find(String id);
-    void changeFirstName(String id, String name,String login);
-    void changeLastName(String id, String lastName, String login);
-    void changePassword(String id, String password,String login);
+    void changeFirstName(String id, String name);
+    void changeLastName(String id, String lastName);
+    void changePassword(String id, String password);
 }

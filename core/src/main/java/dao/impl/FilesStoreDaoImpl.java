@@ -53,11 +53,11 @@ public class FilesStoreDaoImpl implements FilesStoreDao {
         entityManager.merge(filesStore);
     }
 
-//    @Override
-//    public List<FilesStore> findWithUser(User user){
-//        TypedQuery<FilesStore> query = entityManager.createQuery("FROM FilesStore s WHERE s.user = :myuser", FilesStore.class);
-//        query.setParameter("myuser",user);
-//        return query.getResultList();
-//    }
+    @Override
+    public List<FilesStore> findWithUser(User user){
+        TypedQuery<FilesStore> query = entityManager.createQuery("FROM FilesStore s WHERE s.user = :myuser", FilesStore.class);
+        query.setParameter("myuser",user);
+        return query.getResultList();
+    }
 
 }

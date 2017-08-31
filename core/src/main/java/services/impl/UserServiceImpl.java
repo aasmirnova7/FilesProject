@@ -34,30 +34,24 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void changeFirstName(String id, String name, String login) {
+    public void changeFirstName(String id, String name) {
         User u = find(id);
-        if (login.equals(u.getId())) {
-            u.setName(name);
-            userDao.mergeUser(u);
-        }
+        u.setName(name);
+        userDao.mergeUser(u);
     }
 
     @Override
-    public void changeLastName(String id, String lastName, String login) {
-        User u = find(login);
-        if (login.equals(u.getId())) {
-            u.setLastName(lastName);
-            userDao.mergeUser(u);
-        }
+    public void changeLastName(String id, String lastName) {
+        User u = find(id);
+        u.setLastName(lastName);
+        userDao.mergeUser(u);
     }
 
     @Override
-    public void changePassword(String id, String password, String login) {
-        User u = find(login);
-        if (login.equals(u.getId())) {
-            u.setPassword(passwordEncoder.encode(password));
-            userDao.mergeUser(u);
-        }
+    public void changePassword(String id, String password) {
+        User u = find(id);
+        u.setPassword(passwordEncoder.encode(password));
+        userDao.mergeUser(u);
     }
 
 }

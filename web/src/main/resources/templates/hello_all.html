@@ -4,24 +4,81 @@
 
 <head>
     <title>Home page</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <!--<style type="text/css">-->
+        <!--body{-->
+        <!--background-color:#b0c4de;}-->
+        <!--.myData{-->
+        <!--border: 5px solid;-->
+        <!--color: red;-->
+        <!--}-->
+        <!--.file{-->
+        <!--padding: 100px;-->
+        <!--float:right;-->
+        <!--display: block;-->
+        <!--max-width: 400px;-->
+        <!--max-height: 500px;-->
+        <!--border: 5px solid;-->
+        <!--color: green;-->
+        <!--margin-right: 200px;-->
+        <!--}-->
+        <!--.myData{-->
+        <!--padding-top: 30px;-->
+        <!--padding-right: 350px;-->
+        <!--padding-left: 40px;-->
+        <!--padding-bottom: 40px;-->
+        <!--float:left;-->
+        <!--display: block;-->
+        <!--max-width: 200px;-->
+        <!--max-height: 400px;-->
+        <!--margin-bottom: 40px;-->
+        <!--margin-left: 100px;-->
+        <!--border: 5px solid;-->
+        <!--color: red;-->
+        <!--}-->
+    <!--</style>-->
 </head>
-<body>
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-<h2>This is your home page</h2>
 
-<form th:action="@{/hello_all}" method="post">
-    <input type="submit" value="Show all files"/>
-    <table>
-        <th:block th:each="string : ${strings}">
-            <tr>
-                <td th:text="${string}">...</td>
-            </tr>
-        </th:block>
-    </table>
-</form>
-<div><p>Click <a th:href="@{/Upload}">UPLOAD</a> to load files.</p></div>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
+<body>
+    <div align="center">
+        <h1 th:inline="text">Hello [[${#httpServletRequest.RemoteUser}]]!</h1>
+        <h2>This is your home page</h2>
+
+        <div class="myData">
+            <form th:action="@{/hello_all}" method="get">
+                <table>
+                    <tr>
+                        <td><h4>Name : </h4></td>
+                        <td><h4 th:text="${firstName}"/></td>
+                    </tr>
+                    <tr>
+                        <td><h4>LastName : </h4></td>
+                        <td><h4 th:text="${lastName}"/></td>
+                    </tr>
+                </table>
+            </form>
+
+            <div><p>Click <a th:href="@{/profile}">PROFILE</a> to change the data of profile.</p></div>
+
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out"/>
+            </form>
+        </div>
+
+        <div class="file">
+            <form th:action="@{/hello_all}" method="post">
+                <input type="submit" value="Show all files"/>
+                <table>
+                    <th:block th:each="string : ${strings}">
+                        <tr>
+                            <td th:text="${string}">...</td>
+                        </tr>
+                    </th:block>
+                </table>
+            </form>
+
+            <div><p>Click <a th:href="@{/Upload}">UPLOAD</a> to load files.</p></div>
+        </div>
+    </div>
 </body>
 </html>

@@ -26,7 +26,7 @@ public class FileUploadController {
     }
 
     @RequestMapping(value = "/Upload", method = RequestMethod.POST)
-    public String handleFileUpload( @RequestParam MultipartFile file) throws Exception {
+    public String handleFileUpload(@RequestParam MultipartFile file) throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         User user = userService.find(name);
@@ -35,7 +35,7 @@ public class FileUploadController {
         uploadFile.setData(file.getBytes());
         uploadFile.setUser(user);
         uploadFile.setPrivacy(0);//надо обрабатывать
-        filesStoreService.save(uploadFile);
+        filesStoreService.save(uploadFile); //Если сохраняем один и тот же файл, тоже плохо
         return "Success";
     }
 }

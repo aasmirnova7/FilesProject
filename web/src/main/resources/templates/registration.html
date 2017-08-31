@@ -7,7 +7,7 @@
 </head>
 <body>
 <div align="center">
-<form action="#" th:action="@{/registration}" th:object="${user}" method="POST">
+    <form action="#" th:action="@{/registration}" th:object="${user}" method="POST">
         <table>
             <tr>
                 <td>Login : </td>
@@ -37,10 +37,10 @@
                 <td><button type="submit">Register</button></td>
             </tr>
         </table>
-    <div>
-        <p>Click <a th:href="@{/login}">LOGIN</a> to login</p>
-    </div>
-</form>
+        <div>
+            <p>Click <a th:href="@{/login}">LOGIN</a> to login</p>
+        </div>
+    </form>
 </div>
 
 </body>

@@ -1,0 +1,31 @@
+body{
+    background-color:#b0c4de;
+}
+.myData{
+    border: 5px solid
+    color: red
+}
+.file{
+    padding: 100px
+    float:right
+    display: block
+    max-width: 400px
+    max-height: 500px
+    border: 5px solid
+    color: green
+    margin-right: 200px
+}
+.myData{
+    padding-top: 30px
+    padding-right: 350px
+    padding-left: 40px
+    padding-bottom: 40px
+    float:left
+    display: block
+    max-width: 200px
+    max-height: 400px
+    margin-bottom: 40px
+    margin-left: 100px
+    border: 5px solid
+    color: red
+}
