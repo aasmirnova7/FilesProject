@@ -10,11 +10,17 @@
         <form  th:action="@{/Upload}"  method="POST" enctype="multipart/form-data">
             <table>
                 <tr>
+                    <td th:text="${error}">...</td>
+                </tr>
+                <tr>
                     <td>Pick file:</td>
                     <td><input type="file" name="file"/></td>
                 </tr>
                 <tr>
                     <td><input type="submit" value="Upload"/></td>
+                </tr>
+                <tr>
+                    <td>Click <a th:href="@{/hello_all}">HOME</a> to return to home page</td>
                 </tr>
             </table>
         </form>

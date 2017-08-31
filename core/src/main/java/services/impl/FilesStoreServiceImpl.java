@@ -98,6 +98,9 @@ public class FilesStoreServiceImpl implements FilesStoreService{
         if(fs.getUser().getId().equals(login)&&0<=level&&level<3) {
             fs.setPrivacy(level);
             filesStoreDao.mergeFileStore(fs);
+            if(level==2){
+                safsd.save(fs,login);
+            }
         }
     }
     @Override

@@ -8,10 +8,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import services.FilesStoreService;
 import services.UserService;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class FileUploadController {
@@ -21,21 +20,30 @@ public class FileUploadController {
     private UserService userService;
 
     @RequestMapping(value = "/Upload", method = RequestMethod.GET)
-    public String showUploadForm(HttpServletRequest request) {
-        return "Upload";
+    public ModelAndView showUploadForm() {
+        return new ModelAndView("Upload");
     }
 
     @RequestMapping(value = "/Upload", method = RequestMethod.POST)
-    public String handleFileUpload(@RequestParam MultipartFile file) throws Exception {
+    public ModelAndView handleFileUpload(@RequestParam MultipartFile file) throws Exception {
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        User user = userService.find(name);
-        FilesStore uploadFile = new FilesStore();
-        uploadFile.setFileName(file.getOriginalFilename());
-        uploadFile.setData(file.getBytes());
-        uploadFile.setUser(user);
-        uploadFile.setPrivacy(0);//надо обрабатывать
-        filesStoreService.save(uploadFile); //Если сохраняем один и тот же файл, тоже плохо
-        return "Success";
+        String id = auth.getName();
+        User user = userService.find(id);
+        if(filesStoreService.find(file.getOriginalFilename(),id).isEmpty()){
+            FilesStore uploadFile = new FilesStore();
+            uploadFile.setFileName(file.getOriginalFilename());
+            uploadFile.setData(file.getBytes());
+            uploadFile.setUser(user);
+            uploadFile.setPrivacy(0);//надо обрабатывать
+            filesStoreService.save(uploadFile); //Если сохраняем один и тот же файл, тоже плохо
+            return new ModelAndView("Success");
+        }
+        else {
+            ModelAndView model = new ModelAndView("Upload");
+            model.addObject("error","ERROR! File don't load! This file already exist!");
+            return model;
+        }
+
     }
 }

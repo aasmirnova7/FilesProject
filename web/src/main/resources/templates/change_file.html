@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Change file page</title>
+</head>
+<body>
+<h1>Change your file</h1>
+<form  th:action="@{/change_file}"  method="post" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td th:text="${success}">...</td>
+            <td th:text="${error}">...</td>
+        </tr>
+        <tr>
+            <td>Choose file:
+                <select name="theme">
+                    <th:block th:each="string : ${strings}">
+                        <option th:value="${string}"><h3 th:text="${string}"></h3></option>
+                    </th:block>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><input name="action" type="submit" value="Choose"/></td>
+        </tr>
+        <tr>
+            <td>File name: </td>
+            <td><h4 th:text="${fileName}"/></td>
+        </tr>
+        <tr>
+            <td>New file name: </td>
+            <td><input type="text" name="newFileName" /></td>
+            <td th:text="${errorFileName}">...</td>
+        </tr>
+        <tr>
+            <td>Level for privacy: </td>
+            <td><h4 th:text="${level}"/></td>
+        </tr>
+        <tr>
+            <td>New Level: </td>
+            <td><input type="text" name="newLevel" /></td>
+            <td th:text="${errorLevel}">...</td>
+        </tr>
+        <tr>
+            <td><input name="action" type="submit" value="Commit"/></td>
+        </tr>
+        <tr>
+            <td>Click <a th:href="@{/hello_all}">HOME</a> to return to home page</td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

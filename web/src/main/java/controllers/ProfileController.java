@@ -1,16 +1,12 @@
 package controllers;
 
-import com.sun.org.glassfish.gmbal.ParameterNames;
-import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.servlet.ModelAndView;
 import services.UserService;
 
@@ -21,7 +17,8 @@ import java.util.regex.Pattern;
 public class ProfileController {
     @Autowired
     private UserService userService;
-    Pattern pattern = Pattern.compile("[a-zA-Z]*");
+
+    private Pattern pattern = Pattern.compile("[a-zA-Z]*");
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView showProfilePage() {
@@ -34,7 +31,7 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.POST)
-    public ModelAndView changeLastName(@RequestParam String newLastName, @RequestParam String newName,
+    public ModelAndView changeProfile(@RequestParam String newLastName, @RequestParam String newName,
                                        @RequestParam String repeatPassword, @RequestParam String newPassword) {
         ModelAndView model = new ModelAndView("profile");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -70,17 +67,4 @@ public class ProfileController {
         model.addObject("lastName",userService.find(id).getLastName());
         return model;
     }
-
-//    @RequestMapping(value = "/profile", method = RequestMethod.POST)
-//    public ModelAndView changeFirstName(@RequestParam String newName) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        String id = auth.getName();
-//        userService.changeFirstName(id,newName);
-//        ModelAndView model = new ModelAndView("profile");
-//        model.addObject("name",userService.find(id).getName());
-//        model.addObject("lastName",userService.find(id).getLastName());
-//        return model;
-//    }
-
-
 }

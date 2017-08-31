@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import services.FilesStoreService;
 import services.UserService;
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class HomePageController {
