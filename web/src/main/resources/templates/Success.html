@@ -1,15 +1,35 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Upload Done</title>
+    <style type="text/css">
+        body{
+        margin:0;
+        padding:0;
+        background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
+        }
+        .header{
+        background-color: YellowGreen;
+        padding:10px;
+        }
+        table{
+        margin: 30px;
+        }
+    </style>
 </head>
 <body>
     <div align="center">
-        <h1>File have been uploaded successfully!</h1>
-        <div><p>Click <a th:href="@{/Upload}">UPLOAD PAGE</a> to load more files</p></div>
-        <div><p> </p></div>
-        <div><p>Click <a th:href="@{/hello_all}">YOUR PAGE</a> to return to your page</p></div>
+        <div class="header">
+            <h1>File have been uploaded successfully!</h1>
+        </div>
+        <table border="solid">
+            <tr>
+                <td><p>Click <a th:href="@{/Upload}">UPLOAD PAGE</a> to load more files</p></td>
+            </tr>
+            <tr>
+                <td><p>Click <a th:href="@{/hello_all}">YOUR PAGE</a> to return to your page</p></td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>

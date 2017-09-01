@@ -32,23 +32,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
                 .antMatchers("/registration").permitAll()
+                .antMatchers("/error").permitAll()
                 .anyRequest().authenticated()
-//                .antMatchers("/login").permitAll()
-//                .antMatchers("/Upload").authenticated()
-//                .antMatchers("/Success").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-//                .failureForwardUrl("/error")
-                .permitAll()
                 .failureForwardUrl("/error")
+                .permitAll()
                 .and()
                 .logout()
                 .permitAll();
     }
     @Bean
     public PasswordEncoder passwordEncoder(){
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder;
+        return new BCryptPasswordEncoder();
     }
 }

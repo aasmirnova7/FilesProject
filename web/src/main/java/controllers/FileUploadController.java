@@ -35,13 +35,13 @@ public class FileUploadController {
             uploadFile.setFileName(file.getOriginalFilename());
             uploadFile.setData(file.getBytes());
             uploadFile.setUser(user);
-            uploadFile.setPrivacy(0);//надо обрабатывать
+            uploadFile.setPrivacy(1);//надо обрабатывать
             filesStoreService.save(uploadFile); //Если сохраняем один и тот же файл, тоже плохо
             return new ModelAndView("Success");
         }
         else {
             ModelAndView model = new ModelAndView("Upload");
-            model.addObject("error","ERROR! File don't load! This file already exist!");
+            model.addObject("error"," ERROR! File don't load! This file already exist!");
             return model;
         }
 

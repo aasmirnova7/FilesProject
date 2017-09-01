@@ -20,13 +20,14 @@ public class ChangeFileController {
     private FilesStoreService filesStoreService;
 
     private Pattern pattern = Pattern.compile("[-a-zA-Z0-9_]*");
+    private boolean flag = false;
 
     @RequestMapping(value = "/change_file", method = RequestMethod.GET)
     public ModelAndView showChangeFilePage() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
+        String id = auth.getName();
         ModelAndView model = new ModelAndView("change_file");
-        model.addObject("strings",filesStoreService.findAll(name));
+        model.addObject("strings",filesStoreService.findAll(id));
         return model;
     }
 
@@ -41,22 +42,22 @@ public class ChangeFileController {
             FilesStore filesStore = filesStoreService.find(theme,id).get(0);
             model.addObject("fileName",filesStore.getFileName());
             model.addObject("level",filesStore.getPrivacy());
+            flag = true;
             return model;
         }
-        else if(action.equals("Commit")) {
+        else if(action.equals("Commit") && flag) {
+            flag = false;
             ModelAndView model = new ModelAndView("change_file");
-            String oldFileName = theme;
-            FilesStore filesStore = filesStoreService.find(oldFileName, id).get(0);
+            FilesStore filesStore = filesStoreService.find(theme, id).get(0);
             String[] s = filesStore.getFileName().split("\\.");
             String type = s[s.length - 1];
-            if (!newLevel.equals("") && (newLevel.equals("0") || newLevel.equals("1") || newLevel.equals("2"))) {
+            if ((newLevel.equals("0") || newLevel.equals("1") || newLevel.equals("2"))) {
                 filesStoreService.changeLevel(filesStore, Integer.parseInt(newLevel), id);
-                model.addObject("level", filesStoreService.find(oldFileName, id).get(0).getPrivacy());
-                model.addObject("fileName",filesStoreService.find(oldFileName, id).get(0).getFileName());
-            } else if (!newLevel.equals("")) {
-                model.addObject("fileName",filesStoreService.find(oldFileName, id).get(0).getFileName());
-                model.addObject("level",filesStoreService.find(oldFileName, id).get(0).getPrivacy());
-                model.addObject("errorLevel", "Use levels: \"0\" - for all, \"1\" - just for you, \"2\" - for friends!");
+                model.addObject("level", filesStoreService.find(theme, id).get(0).getPrivacy());
+                model.addObject("fileName",filesStoreService.find(theme, id).get(0).getFileName());
+            } else if (newLevel.equals("_")) {
+                model.addObject("fileName",filesStoreService.find(theme, id).get(0).getFileName());
+                model.addObject("level",filesStoreService.find(theme, id).get(0).getPrivacy());
             }
             Matcher matcher1 = pattern.matcher(newFileName);
             if (!newFileName.equals("") && matcher1.matches()) {
@@ -65,12 +66,17 @@ public class ChangeFileController {
                 model.addObject("level",filesStoreService.find(newFileName +"."+ type, id).get(0).getPrivacy());
             }
             if (!matcher1.matches()) {
-                model.addObject("fileName",filesStoreService.find(oldFileName, id).get(0).getFileName());
-                model.addObject("level",filesStoreService.find(oldFileName, id).get(0).getPrivacy());
-                model.addObject("errorFileName", "Use just letters or numbers or \"_\"!");
+                model.addObject("fileName",filesStoreService.find(theme, id).get(0).getFileName());
+                model.addObject("level",filesStoreService.find(theme, id).get(0).getPrivacy());
+                model.addObject("errorFileName", " Use just letters or numbers or \"_\"!");
             }
             model.addObject("strings",filesStoreService.findAll(id));
             return model;
-        } else return new ModelAndView("error");
+        } else {
+            ModelAndView model = new ModelAndView("change_file");
+            model.addObject("strings",filesStoreService.findAll(id));
+            model.addObject("errorFileName", " Choose file before commit!");
+            return model;
+        }
     }
 }

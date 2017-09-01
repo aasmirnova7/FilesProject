@@ -36,12 +36,12 @@ public class FileDownloadController {
 
         if(!filesStoreService.find(theme,name).isEmpty()){
             FilesStore filesStore = filesStoreService.find(theme,name).get(0);
-            FileOutputStream fos = new FileOutputStream(new File("/Users/ksenia/Desktop/"+filesStore.getFileName()));
+            FileOutputStream fos = new FileOutputStream(new File("C:\\Users\\Acer1212\\Desktop\\For_project\\"+filesStore.getFileName()));
             fos.write(filesStore.getData());
             fos.close();
-            model.addObject("success","File: \""+filesStore.getFileName()+"\" download successfully");
+            model.addObject("success"," File: \""+filesStore.getFileName()+"\" download successfully");
         }else {
-            model.addObject("error","ERROR! File do not download");
+            model.addObject("error"," ERROR! File do not download");
         }
         model.addObject("strings",filesStoreService.findAll(name));
         return model;

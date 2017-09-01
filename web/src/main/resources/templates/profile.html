@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Profile page</title>
+    <style type="text/css">
+        body{
+        margin:0;
+        padding:0;
+        background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
+        }
+        .header{
+        background-color: YellowGreen;
+        padding:10px;
+        }
+        table{
+        margin: 30px;
+        }
+    </style>
 </head>
 <body>
     <div align="center">
+        <div class="header">
+            <h1>You profile</h1>
+        </div>
         <form  th:action="@{/profile}"  method="POST">
             <table>
                 <tr>
@@ -13,8 +30,7 @@
                 </tr>
                 <tr>
                     <td>New Name: </td>
-                    <td><input type="text" name="newName" /></td>
-                    <td th:text="${errorFirstName}">...</td>
+                    <td><input type="text" name="newName" th:text="${errorFirstName}"/></td>
                 </tr>
                 <tr>
                     <td>Last Name: </td>
@@ -22,8 +38,7 @@
                 </tr>
                 <tr>
                     <td>New Last Name: </td>
-                    <td><input type="text" name="newLastName" /></td>
-                    <td th:text="${errorLastName}">...</td>
+                    <td><input type="text" name="newLastName" th:text="${errorLastName}"/></td>
                 </tr>
                 <tr>
                     <td>Password: </td>
@@ -31,22 +46,22 @@
                 </tr>
                 <tr>
                     <td>New Password: </td>
-                    <td><input type="password" name="newPassword" /></td>
-                    <td th:text="${errorPassword}">...</td>
+                    <td><input type="password" name="newPassword" th:text="${errorPassword}"/></td>
                 </tr>
                 <tr>
                     <td>Repeat New Password: </td>
-                    <td><input type="password" name="repeatPassword" /></td>
-                    <td th:text="${errorRepeatPassword}">...</td>
+                    <td><input type="password" name="repeatPassword" th:text="${errorRepeatPassword}" /></td>
                 </tr>
                 <tr>
                     <td><button type="submit">Commit</button></td>
                 </tr>
 
             </table>
-            <div>
-                <p>Click <a th:href="@{/hello_all}">Home</a> to return on Home Page</p>
-            </div>
+            <table border="solid">
+                <tr>
+                    <td>Click <a th:href="@{/hello_all}">Home</a> to return on Home Page</td>
+                </tr>
+            </table>
         </form>
     </div>
 </body>

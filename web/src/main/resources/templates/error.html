@@ -1,11 +1,33 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Error page</title>
+    <style type="text/css">
+        body{
+        margin:0;
+        padding:0;
+        background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
+        }
+        .header{
+        background-color: red;
+        padding:10px;
+        }
+        table{
+        margin: 30px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Login or password is incorrect!</h1>
+    <div align="center">
+        <div class="header">
+            <h1>Error!</h1>
+        </div>
 
-    <p>Click <a th:href="@{/login}">LOGIN</a> to login or <a th:href="@{/registration}">REGISTRATION</a> to get registration</p>
+        <table border="solid">
+            <tr>
+                <td>Click <a th:href="@{/login}">LOGIN</a> to login or <a th:href="@{/registration}">REGISTRATION</a> to get registration</td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>
