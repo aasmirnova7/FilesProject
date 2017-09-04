@@ -25,13 +25,9 @@
         .error{
         color: red;
         }
-        #person{display:none;}
-        #field{display:none;}
         #addDelete{display:none;}
         #fieldAdd{display:none;}
-        #fieldDelete{display:none;}
         #personAdd{display:none;}
-        #personDelete{display:none;}
 
     </style>
 </head>
@@ -40,7 +36,7 @@
         <div class="header">
             <h1>Change your file</h1>
         </div>
-        <form  th:action="@{/change_file}"  method="post" enctype="multipart/form-data">
+        <form  th:action="@{/change_file}"  method="post">
             <table>
                 <tr>
                     <td th:text="${success}"></td>
@@ -77,6 +73,7 @@
                     <td>New Level: </td>
                     <td>
                         <select name="newLevel" onchange="change()" id="newLevel">
+                            <!---->
                             <option th:value="_"><h3> Not change </h3></option>
                             <option th:value="0"><h3> All can see </h3></option>
                             <option th:value="1"><h3> Only I can see </h3></option>
@@ -87,6 +84,7 @@
 
                     <td>
                         <select  name="addDelete" id="addDelete" onchange="showOnAdd()">
+                            <option th:value="_"><h3> Not change </h3></option>
                             <option th:value="add"><h3> Add who can see </h3></option>
                             <option th:value="delete"><h3> Delete who can see </h3></option>
                         </select>
@@ -101,15 +99,7 @@
                             </th:block>
                         </select>
                     </td>
-
-                    <td  id="fieldDelete">Person: </td>
-                    <td>
-                        <select name='personDelete' id="personDelete">
-                            <th:block th:each="userDelete : ${usersDelete}">
-                                <option th:value="${userDelete}"><h3 th:text="${userDelete}"></h3></option>
-                            </th:block>
-                        </select>
-                    </td>
+                    <td th:text="${errorlevel}"></td>
 
                 </tr>
                 <tr>
@@ -123,9 +113,8 @@
             </table>
         </form>
     </div>
-
     <script th:inline="javascript">
-    /*<![CDATA[*/
+        /*<![CDATA[*/
         function change(){
             var primary = document.getElementById('newLevel').value;
             if(primary == '2'){
@@ -137,19 +126,13 @@
 
         function showOnAdd(){
             var primary = document.getElementById('addDelete').value;
-            document.getElementById('personDelete').style.display="none";
-            document.getElementById('fieldDelete').style.display="none";
-            document.getElementById('personAdd').style.display="none";
-            document.getElementById('fieldAdd').style.display="none";
-            if(primary == 'add'){
+            if(primary == 'add'||primary == 'delete'){
                 document.getElementById('personAdd').style.display="block";
                 document.getElementById('fieldAdd').style.display="block";
-            }else if(primary == 'delete'){
-                document.getElementById('personDelete').style.display="block";
-                document.getElementById('fieldDelete').style.display="block";
             }
         }
-     /*]]>*/
+        /*]]>*/
     </script>
+
 </body>
 </html>

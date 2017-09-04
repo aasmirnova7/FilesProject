@@ -6,7 +6,7 @@ import org.hibernate.annotations.CascadeType;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="store")
@@ -31,6 +31,7 @@ public class FilesStore {
         this.setUser(user);
         this.privacy = privacy;
         this.data = data;
+
     }
 
     public String getFileName() {

@@ -71,14 +71,22 @@ public class FilesStoreServiceTest {
         filesStoreService.changeLevel(filesStore,1,"1");
         Assert.assertNotEquals(filesStoreService.find("AAA","1").get(0),unexpected);
     }
-//    @Test
-//    public void deleteIdAccessedTest(){
-//        filesStoreService.deleteIdAccessed(filesStoreService.find("AAA","1").get(0),"1","2");
-//        Assert.assertEquals(filesStoreDao.findSpecialFiles(filesStoreService.find("AAA","1").get(0)).size(),1);
-//    }
-//    @Test
-//    public void addIdAccessedTest(){
-//        filesStoreService.addIdAccessed(filesStoreService.find("AAA","1").get(0),"1","3");
-//        Assert.assertEquals(filesStoreDao.findSpecialFiles(filesStoreService.find("AAA","1").get(0)).size(),3);
-//    }
+    @Test
+    public void deleteIdAccessedTest(){
+        filesStoreService.deleteIdAccessed(filesStoreService.find("AAA","1").get(0),"2");
+        Assert.assertEquals(filesStoreDao.findSpecialFiles(filesStoreService.find("AAA","1").get(0)).size(),1);
+    }
+    @Test
+    public void addIdAccessedTest(){
+        filesStoreService.addIdAccessed(filesStoreService.find("AAA","1").get(0),"3");
+        Assert.assertEquals(filesStoreDao.findSpecialFiles(filesStoreService.find("AAA","1").get(0)).size(),3);
+    }
+    @Test
+    public void findAllInSpecialFilesTest(){
+        Assert.assertFalse(filesStoreService.findAllInSpecialFiles("2").isEmpty());
+    }
+    @Test
+    public void findAllInSpecialFilesWhereIIsOwnerTest(){
+        Assert.assertFalse(filesStoreService.findAllInSpecialFilesWhereIIsOwner("1","AAA").isEmpty());
+    }
 }

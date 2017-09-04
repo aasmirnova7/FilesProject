@@ -33,7 +33,7 @@
             <h1>Download your file</h1>
         </div>
 
-        <form  th:action="@{/download}"  method="POST" enctype="multipart/form-data">
+        <form  th:action="@{/download}"  method="POST">
             <table>
                 <tr>
                     <td th:text="${success}"></td>
@@ -47,12 +47,9 @@
                             </th:block>
                         </select>
                     </td>
-                    <td>Choose where:
-                        <input type="file" name="file"/>
-                    </td>
                 </tr>
                 <tr>
-                    <td><input type="submit" value="Download"/></td>
+                    <td><input name="action" type="submit" value="Download"/></td>
                 </tr>
             </table>
             <table border="solid">
@@ -61,7 +58,7 @@
                 </tr>
             </table>
 
-        </form>
+        </form >
     </div>
 </body>
 </html>

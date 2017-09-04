@@ -111,7 +111,7 @@ public class FilesStoreServiceImpl implements FilesStoreService{
     @Override
     public void deleteIdAccessed(FilesStore fs, String idAccessed){
         for (SpecialAccessFilesStore safs: filesStoreDao.findSpecialFiles(fs)){
-            if (safs.getIdAccessed().equals(idAccessed)){
+            if (safs.getIdAccessed().equals(idAccessed)&&!safs.getFilesStore().getUser().getId().equals(idAccessed)){
                 safsd.delete(safs);
                 break;
             }
@@ -136,11 +136,11 @@ public class FilesStoreServiceImpl implements FilesStoreService{
     public List<String> findAllInSpecialFiles(String login) {
         List<String> list = new ArrayList<>();
         for (SpecialAccessFilesStore sa: filesStoreDao.findAllInSpecialFiles(login)){
-            if(sa.getFilesStore().getUser().getId() != login)
+            if(!sa.getFilesStore().getUser().getId().equals(login))
                 list.add(sa.getFilesStore().getFileName());
         }
         for (FilesStore fs : filesStoreDao.findWithLevel0()){
-            if(fs.getUser().getId() != login)
+            if(!fs.getUser().getId().equals(login))
                 list.add(fs.getFileName());
         }
         return list;
@@ -156,9 +156,8 @@ public class FilesStoreServiceImpl implements FilesStoreService{
             }
         }
         for(SpecialAccessFilesStore fs: filesStoreDao.findWithFileNameInSAFS(filesStore)){
-            if(!fs.getIdAccessed().equals(login)){
-                list.add(fs.getIdAccessed());
-            }
+            list.add(fs.getIdAccessed());
+
         }
         return list;
     }

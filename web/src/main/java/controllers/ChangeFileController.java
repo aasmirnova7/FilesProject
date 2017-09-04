@@ -34,29 +34,22 @@ public class ChangeFileController {
         ModelAndView model = new ModelAndView("change_file");
         model.addObject("strings",filesStoreService.findAll(id));
         model.addObject("users",userService.findAll());
-        model.addObject("usersDelete",userService.findAll());
         return model;
     }
 
     @RequestMapping(value = "/change_file", method = RequestMethod.POST)
     public ModelAndView changeFile(@RequestParam String action,@RequestParam String theme,
                                    @RequestParam String newFileName, @RequestParam String newLevel,
-                                   @RequestParam String personAdd, @RequestParam String personDelete,
-                                   @RequestParam String addDelete) {
+                                   @RequestParam String personAdd, @RequestParam String addDelete) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String id = auth.getName();
         ModelAndView model = new ModelAndView("change_file");
-        if(action.equals("Choose")){//Решить проблему с theme!!!!!!
-            System.out.println("++++" + oldName+" THEME:   " + theme);
-            if(oldName==null || !oldName.equals(theme)){
-                oldName = theme;
-                flag = true;
-            }
-            System.out.println("----" + oldName+" THEME:   " + theme);
+        if(action.equals("Choose")){
+            oldName = theme;
+            flag = true;
             model.addObject("users",userService.findAll());
-            model.addObject("usersDelete",filesStoreService.findAllInSpecialFilesWhereIIsOwner(id,oldName));
             model.addObject("strings",filesStoreService.findAll(id));
-            FilesStore filesStore = filesStoreService.find(oldName,id).get(0);
+            FilesStore filesStore = filesStoreService.find(theme,id).get(0);
             model.addObject("fileName",filesStore.getFileName());
             model.addObject("level",filesStore.getPrivacy());
             return model;
@@ -75,10 +68,16 @@ public class ChangeFileController {
                     model.addObject("level",filesStoreService.find(oldName, id).get(0).getPrivacy());
                 }
                 if(newLevel.equals("2")){
-                    if(addDelete.equals("add"))
+                    if(addDelete.equals("add")) {
                         filesStoreService.addIdAccessed(filesStoreService.find(oldName, id).get(0),personAdd);
-                    else{
-                        filesStoreService.deleteIdAccessed(filesStoreService.find(oldName, id).get(0),personDelete);
+                    }
+                    else if(addDelete.equals("delete")){
+                        if(personAdd.equals(id))
+                            model.addObject("errorlevel","You can not delete yourself");
+                        else if(!filesStoreService.findAllInSpecialFilesWhereIIsOwner(id,oldName).contains(personAdd)){
+                            model.addObject("errorlevel","This person haven't access to this file");
+                        }
+                        filesStoreService.deleteIdAccessed(filesStoreService.find(oldName, id).get(0),personAdd);
                     }
                 }
                 Matcher matcher1 = pattern.matcher(newFileName);
@@ -94,13 +93,9 @@ public class ChangeFileController {
                 }
                 model.addObject("strings",filesStoreService.findAll(id));
                 model.addObject("users",userService.findAll());
-                model.addObject("usersDelete",filesStoreService.findAllInSpecialFilesWhereIIsOwner(id,oldName));
                 return model;
             } else {
-                System.out.println(")))))"+userService.findAll().size());
                 model.addObject("users",userService.findAll());
-                System.out.println("***"+filesStoreService.findAllInSpecialFilesWhereIIsOwner(id,oldName));
-                model.addObject("usersDelete",filesStoreService.findAllInSpecialFilesWhereIIsOwner(id,oldName));
                 model.addObject("strings",filesStoreService.findAll(id));
                 model.addObject("errorFileName", " Choose file before commit!");
                 return model;

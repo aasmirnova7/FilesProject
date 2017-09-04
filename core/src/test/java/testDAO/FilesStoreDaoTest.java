@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import services.FilesStoreService;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -22,6 +24,8 @@ public class FilesStoreDaoTest{
     private FilesStoreDao fsd;
     @Autowired
     private SpecialAccessFilesStoreDao specialAccessFilesStoreDao;
+    @Autowired
+    private FilesStoreService storeService;
 
     private Integer fsId;
 
@@ -81,5 +85,22 @@ public class FilesStoreDaoTest{
         specialAccessFilesStoreDao.save(fs,"1");
         Assert.assertNotNull(fsd.findSpecialFiles(fs).get(0));
 
+    }
+    @Test
+    public void findAllInSpecialFilesTest(){
+        FilesStore fs = fsd.findWithFileName("TTT").get(0);
+        storeService.changeLevel(fs,2,"1");
+        Assert.assertFalse(fsd.findAllInSpecialFiles("1").isEmpty());
+    }
+    @Test
+    public void findWithFileNameInSAFSTest(){
+        FilesStore fs =fsd.findWithFileName("TTT").get(0);
+        storeService.changeLevel(fs,2,"1");
+        Assert.assertFalse(fsd.findWithFileNameInSAFS(fs).isEmpty());
+    }
+    @Test
+    public void findWithLevel0Test(){
+        FilesStore fs =fsd.findWithFileName("TTT").get(0);
+        Assert.assertFalse(fsd.findWithLevel0().isEmpty());
     }
 }
