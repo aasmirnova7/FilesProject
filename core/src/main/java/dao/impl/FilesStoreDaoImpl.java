@@ -29,6 +29,12 @@ public class FilesStoreDaoImpl implements FilesStoreDao {
         return query.getResultList();
     }
     @Override
+    public  List<SpecialAccessFilesStore> findWithFileNameInSAFS(FilesStore fs){
+        TypedQuery<SpecialAccessFilesStore> query = entityManager.createQuery("FROM SpecialAccessFilesStore s WHERE s.filesStore = :file", SpecialAccessFilesStore.class);
+        query.setParameter("file", fs);
+        return query.getResultList();
+    }
+    @Override
     @Transactional
     public void save(FilesStore filesStore){
         entityManager.persist(filesStore);
@@ -59,5 +65,20 @@ public class FilesStoreDaoImpl implements FilesStoreDao {
         query.setParameter("myuser",user);
         return query.getResultList();
     }
+
+    @Override
+    public List<SpecialAccessFilesStore> findAllInSpecialFiles(String login) {
+        TypedQuery<SpecialAccessFilesStore> query = entityManager.createQuery("from SpecialAccessFilesStore s where s.idAccessed = :id", SpecialAccessFilesStore.class);
+        query.setParameter("id", login);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<FilesStore> findWithLevel0() {
+        TypedQuery<FilesStore> query = entityManager.createQuery("FROM FilesStore s WHERE s.privacy = :level", FilesStore.class);
+        query.setParameter("level",0);
+        return query.getResultList();
+    }
+
 
 }

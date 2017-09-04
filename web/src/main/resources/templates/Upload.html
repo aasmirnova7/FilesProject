@@ -9,11 +9,21 @@
         background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
         }
         .header{
+        border-radius: 20px;
         background-color: YellowGreen;
         padding:10px;
         }
         table{
         margin: 30px;
+        }
+        a:hover{
+        color: DarkGreen;
+        }
+        input:hover{
+        background-color: YellowGreen;
+        }
+        .error{
+        color: red;
         }
     </style>
     <!--<link rel="stylesheet" type="text/css" href="css/style.css"/>-->
@@ -26,10 +36,10 @@
         <form  th:action="@{/Upload}"  method="POST" enctype="multipart/form-data">
             <table>
                 <tr>
-                    <td th:text="${error}"></td>
+                    <td class="error" th:text="${error}"></td>
                 </tr>
                 <tr>
-                    <td>Pick file: <input type="file" name="file" /></td>
+                    <td>Pick file: <input type="file" name="file"/></td>
                 </tr>
                 <tr>
                     <td><input type="submit" value="Upload"/></td>

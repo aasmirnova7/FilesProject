@@ -29,11 +29,14 @@ public class HomePageController {
     @RequestMapping(value = "/hello_all", method = RequestMethod.POST)
     public ModelAndView getFileName(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
+        String id = auth.getName();
         ModelAndView model = new ModelAndView("hello_all");
-        model.addObject("firstName",userService.find(name).getName());
-        model.addObject("lastName",userService.find(name).getLastName());
-        model.addObject("strings",filesStoreService.findAll(name));
+        model.addObject("firstName",userService.find(id).getName());
+        model.addObject("lastName",userService.find(id).getLastName());
+        model.addObject("lable1","My files: ");
+        model.addObject("strings",filesStoreService.findAll(id));
+        model.addObject("lable2","Files that I can see: ");
+        model.addObject("files",filesStoreService.findAllInSpecialFiles(id));
         return model;
     }
 }

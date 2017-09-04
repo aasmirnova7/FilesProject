@@ -1,12 +1,15 @@
 package dao.impl;
 
 import dao.UserDao;
+import model.FilesStore;
 import model.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -33,6 +36,12 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User find(String id) {
         return entityManager.find(User.class, id);
+    }
+
+    @Override
+    public List<User> findAll() {
+        TypedQuery<User> query = entityManager.createQuery("FROM User s", User.class);
+        return query.getResultList();
     }
 
     @Transactional

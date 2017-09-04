@@ -7,6 +7,16 @@ table{
         margin: 30px;
         }
 .header{
+    border-radius: 20px;
         background-color: YellowGreen;
         padding:10px;
 }
+a:hover{
+            color: DarkGreen;
+        }
+input:hover, button:hover{
+           background-color: YellowGreen;
+}
+.error{
+        color: red;
+        }

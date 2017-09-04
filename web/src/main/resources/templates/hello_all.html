@@ -14,6 +14,7 @@
         margin:30px;
         }
         .header{
+        border-radius: 20px;
         background-color: YellowGreen;
         padding:10px;
         }
@@ -37,6 +38,12 @@
         color: green;
         margin: 0px;
         }
+        a:hover{
+        color: DarkGreen;
+        }
+        input:hover{
+        background-color: YellowGreen;
+        }
     </style>
 </head>
 
@@ -47,7 +54,7 @@
             <h2>This is your home page</h2>
         </div>
 
-        <table border="gray">
+        <table >
             <tr>
                 <td>
                     <div class="myData">
@@ -75,12 +82,21 @@
                 <td>
                     <div class="file">
                         <form th:action="@{/hello_all}" method="post">
-                            <input type="submit" value="Show all files"/>
+                            <input type="submit" value="Show all files" onclick="showHide('hide2')"/>
+                                <div  th:text="${lable1}"></div>
                                 <th:block th:each="string : ${strings}">
                                     <ul>
                                         <li th:text="${string}">...</li>
                                     </ul>
                                 </th:block>
+
+                                <div  th:text="${lable2}"></div>
+                                <th:block th:each="file : ${files}">
+                                    <ul>
+                                        <li th:text="${file}">...</li>
+                                    </ul>
+                                </th:block>
+
                         </form>
 
                         <div><p>Click <a th:href="@{/Upload}">UPLOAD</a> to load files.</p></div>

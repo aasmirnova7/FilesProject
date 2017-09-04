@@ -9,11 +9,21 @@
         background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
         }
         .header{
+        border-radius: 20px;
         background-color: YellowGreen;
         padding:10px;
         }
         table{
         margin:20px;
+        }
+        a:hover{
+        color: DarkGreen;
+        }
+        input:hover{
+        background-color: YellowGreen;
+        }
+        .error{
+        color: red;
         }
     </style>
 </head>
@@ -27,7 +37,7 @@
             <table>
                 <tr>
                     <td th:text="${success}"></td>
-                    <td th:text="${error}"></td>
+                    <td class="error" th:text="${error}"></td>
                 </tr>
                 <tr>
                     <td>Choose file:
@@ -36,6 +46,9 @@
                                 <option th:value="${string}"><h3 th:text="${string}"></h3></option>
                             </th:block>
                         </select>
+                    </td>
+                    <td>Choose where:
+                        <input type="file" name="file"/>
                     </td>
                 </tr>
                 <tr>

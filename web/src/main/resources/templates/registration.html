@@ -9,11 +9,21 @@
         background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
         }
         .header{
+        border-radius: 20px;
         background-color: YellowGreen;
         padding:10px;
         }
         table{
         margin: 30px;
+        }
+        a:hover{
+        color: DarkGreen;
+        }
+        input:hover, button:hover{
+        background-color: YellowGreen;
+        }
+        .error{
+        color: red;
         }
     </style>
 </head>
@@ -27,12 +37,12 @@
             <tr>
                 <td>Login : </td>
                 <td><input type="text" th:field="*{id}" /></td>
-                <td th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></td>
+                <td  class="error" th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></td>
             </tr>
             <tr>
                 <td>Password: </td>
                 <td><input type="password" th:field="*{password}" /></td>
-                <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>
+                <td class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>
             </tr>
             <tr>
                 <td>Confirm password: </td>
@@ -41,12 +51,12 @@
             <tr>
                 <td>Name:</td>
                 <td><input type="text" th:field="*{name}" /></td>
-                <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></td>
+                <td class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></td>
             </tr>
             <tr>
                 <td>Last name : </td>
                 <td><input type="text" th:field="*{lastName}" /></td>
-                <td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></td>
+                <td  class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></td>
             </tr>
             <tr>
                 <td><button type="submit">Register</button></td>

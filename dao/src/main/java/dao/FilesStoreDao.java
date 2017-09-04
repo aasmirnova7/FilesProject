@@ -14,4 +14,7 @@ public interface FilesStoreDao {
     void mergeFileStore(FilesStore filesStore);
     List<SpecialAccessFilesStore> findSpecialFiles(FilesStore filesStore);
     List<FilesStore> findWithUser(User user);
+    List<SpecialAccessFilesStore> findAllInSpecialFiles(String login);
+    List<FilesStore> findWithLevel0();
+    List<SpecialAccessFilesStore> findWithFileNameInSAFS(FilesStore fs);
 }

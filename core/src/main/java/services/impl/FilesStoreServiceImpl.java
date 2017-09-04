@@ -96,6 +96,11 @@ public class FilesStoreServiceImpl implements FilesStoreService{
     @Override
     public void changeLevel(FilesStore fs, Integer level, String login) {
         if(fs.getUser().getId().equals(login)&&0<=level&&level<3) {
+            if(fs.getPrivacy() == 2 && level !=2){
+                for (SpecialAccessFilesStore file: filesStoreDao.findSpecialFiles(fs)){
+                    safsd.delete(file);
+                }
+            }
             fs.setPrivacy(level);
             filesStoreDao.mergeFileStore(fs);
             if(level==2){
@@ -104,22 +109,19 @@ public class FilesStoreServiceImpl implements FilesStoreService{
         }
     }
     @Override
-    public void deleteIdAccessed(FilesStore fs, String login, String idAccessed){
-        if(fs.getUser().getId().equals(login)){
-            for (SpecialAccessFilesStore safs: filesStoreDao.findSpecialFiles(fs)){
-                if (safs.getIdAccessed().equals(idAccessed)){
-                    safsd.delete(safs);
-                    break;
-                }
+    public void deleteIdAccessed(FilesStore fs, String idAccessed){
+        for (SpecialAccessFilesStore safs: filesStoreDao.findSpecialFiles(fs)){
+            if (safs.getIdAccessed().equals(idAccessed)){
+                safsd.delete(safs);
+                break;
             }
         }
     }
     @Override
-    public void addIdAccessed(FilesStore fs,  String login, String idAccessed){
-        if (fs.getUser().getId().equals(login)) {
-            safsd.save(fs, idAccessed);
-        }
+    public void addIdAccessed(FilesStore fs,   String idAccessed){
+        safsd.save(fs, idAccessed);
     }
+    //Находим файлы, которые принадлежать этому user
     @Override
     public List<String> findAll(String login){
         User user = userService.find(login);
@@ -128,5 +130,36 @@ public class FilesStoreServiceImpl implements FilesStoreService{
             names.add(filesStore.getFileName());
         }
         return names;
+    }
+
+    @Override
+    public List<String> findAllInSpecialFiles(String login) {
+        List<String> list = new ArrayList<>();
+        for (SpecialAccessFilesStore sa: filesStoreDao.findAllInSpecialFiles(login)){
+            if(sa.getFilesStore().getUser().getId() != login)
+                list.add(sa.getFilesStore().getFileName());
+        }
+        for (FilesStore fs : filesStoreDao.findWithLevel0()){
+            if(fs.getUser().getId() != login)
+                list.add(fs.getFileName());
+        }
+        return list;
+    }
+    @Override
+    public List<String> findAllInSpecialFilesWhereIIsOwner(String login, String fileName){
+        List<String> list = new ArrayList<>();
+        FilesStore filesStore = new FilesStore();
+        for (FilesStore fs: filesStoreDao.findWithFileName(fileName)){
+            if(fs.getUser().getId().equals(login)) {
+                filesStore = fs;
+                break;
+            }
+        }
+        for(SpecialAccessFilesStore fs: filesStoreDao.findWithFileNameInSAFS(filesStore)){
+            if(!fs.getIdAccessed().equals(login)){
+                list.add(fs.getIdAccessed());
+            }
+        }
+        return list;
     }
 }

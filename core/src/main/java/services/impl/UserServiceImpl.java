@@ -8,6 +8,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import services.UserService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService{
     @Autowired
@@ -52,6 +55,16 @@ public class UserServiceImpl implements UserService{
         User u = find(id);
         u.setPassword(passwordEncoder.encode(password));
         userDao.mergeUser(u);
+    }
+
+    @Override
+    public List<String> findAll() {
+        List<String> list = new ArrayList<>();
+        List<User> userList = userDao.findAll();
+        for(User user: userList){
+            list.add(user.getId());
+        }
+        return list;
     }
 
 }
