@@ -30,19 +30,26 @@ public class FileUploadController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String id = auth.getName();
         User user = userService.find(id);
-        if(filesStoreService.find(file.getOriginalFilename(),id).isEmpty()){
-            FilesStore uploadFile = new FilesStore();
-            uploadFile.setFileName(file.getOriginalFilename());
-            uploadFile.setData(file.getBytes());
-            uploadFile.setUser(user);
-            uploadFile.setPrivacy(1);//надо обрабатывать
-            filesStoreService.save(uploadFile); //Если сохраняем один и тот же файл, тоже плохо
-            return new ModelAndView("Success");
+        ModelAndView model = new ModelAndView("Upload");
+        if(file.getBytes().length==0){
+            model.addObject("error"," ERROR! Choose file before upload! ");
+            return model;
         }
         else {
-            ModelAndView model = new ModelAndView("Upload");
-            model.addObject("error"," ERROR! File don't load! This file already exist!");
-            return model;
+            if(filesStoreService.findWithFileNameAndUser(file.getOriginalFilename(),id).isEmpty()
+                    &&filesStoreService.findWithDataAndUser(file.getBytes(),id).isEmpty()){
+                FilesStore uploadFile = new FilesStore();
+                uploadFile.setFileName(file.getOriginalFilename());
+                uploadFile.setData(file.getBytes());
+                uploadFile.setUser(user);
+                uploadFile.setPrivacy(1);//надо обрабатывать
+                filesStoreService.save(uploadFile); //Если сохраняем один и тот же файл, тоже плохо
+                return new ModelAndView("Success");
+            }
+            else {
+                model.addObject("error"," ERROR! File don't load! This file already exist in your files! With name: \""+filesStoreService.findWithDataAndUser(file.getBytes(),id).get(0).getFileName()+"\"");
+                return model;
+            }
         }
 
     }

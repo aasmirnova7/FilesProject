@@ -32,33 +32,43 @@ public class FileDownloadController {
         ModelAndView model = new ModelAndView("download");
         List<String> list = filesStoreService.findAll(id);
         list.addAll(filesStoreService.findAllInSpecialFiles(id));
-        model.addObject("strings",list);
+        if(list.isEmpty()){
+            model.addObject("strings","_");
+        }else{
+            model.addObject("strings",list);
+        }
         return model;
     }
 
     @RequestMapping(value = {"/download"}, method = RequestMethod.POST)
     public ModelAndView downloadFile(HttpServletResponse response, @RequestParam String theme) throws IOException {
         ModelAndView model = new ModelAndView("download");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String id = auth.getName();
-        FilesStore filesStore = filesStoreService.find(theme,id).get(0);
-        try {
-            String[] s = filesStore.getFileName().split("\\.");
-            String type = s[s.length - 1];
-            response.setContentType(type);
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + filesStore.getFileName() +"\"");
-            response.setContentLength(filesStore.getData().length);
-            FileCopyUtils.copy(filesStore.getData(), response.getOutputStream());
-            model.addObject("success"," File: \""+filesStore.getFileName()+"\" download successfully");
+        if (theme.equals("_")){
+            model.addObject("error"," ERROR! NO FILES! BEFORE DOWNLOAD DO UPLOAD!");
+            model.addObject("strings","_");
+            return model;
         }
-        catch (IOException e){
-            model.addObject("error"," ERROR! File do not download");
-            throw new IOException("Exception");
+        else {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String id = auth.getName();
+            FilesStore filesStore = filesStoreService.find(theme, id).get(0);
+            try {
+                String[] s = filesStore.getFileName().split("\\.");
+                String type = s[s.length - 1];
+                response.setContentType(type);
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + filesStore.getFileName() + "\"");
+                response.setContentLength(filesStore.getData().length);
+                FileCopyUtils.copy(filesStore.getData(), response.getOutputStream());
+                model.addObject("success", " File: \"" + filesStore.getFileName() + "\" download successfully");
+            } catch (IOException e) {
+                model.addObject("error", " ERROR! File do not download");
+                throw new IOException("Exception");
+            }
+            List<String> list = filesStoreService.findAll(id);
+            list.addAll(filesStoreService.findAllInSpecialFiles(id));
+            model.addObject("strings", list);
+            return model;
         }
-        List<String> list = filesStoreService.findAll(id);
-        list.addAll(filesStoreService.findAllInSpecialFiles(id));
-        model.addObject("strings",list);
-        return model;
 
     }
 }

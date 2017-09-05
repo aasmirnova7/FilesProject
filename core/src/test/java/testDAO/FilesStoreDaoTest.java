@@ -46,7 +46,8 @@ public class FilesStoreDaoTest{
     }
     @Test
     public void findWithFileNameAndUserTest(){
-        Assert.assertNotNull(fsd.findWithFileNameAndUser(em.find(FilesStore.class,fsId)));
+        FilesStore fs=em.find(FilesStore.class,fsId);
+        Assert.assertNotNull(fsd.findWithFileNameAndUser(fs.getFileName(),fs.getUser()));
     }
     @Test
     public void findWithFileNameTest(){
@@ -102,5 +103,10 @@ public class FilesStoreDaoTest{
     public void findWithLevel0Test(){
         FilesStore fs =fsd.findWithFileName("TTT").get(0);
         Assert.assertFalse(fsd.findWithLevel0().isEmpty());
+    }
+    @Test
+    public void findWithDataAndUserTest(){
+        User user = new User("1","vasya", "vasichkin", "123");
+        Assert.assertFalse(fsd.findWithDataAndUser("QQQ".getBytes(),user).isEmpty());
     }
 }

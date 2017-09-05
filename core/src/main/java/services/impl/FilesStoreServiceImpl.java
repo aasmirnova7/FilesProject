@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import services.FilesStoreService;
 import services.UserService;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class FilesStoreServiceImpl implements FilesStoreService{
 
     @Override
     public void save(FilesStore filesStore,String ... idAccessed){
-        List<FilesStore> list = filesStoreDao.findWithFileNameAndUser(filesStore);
+        List<FilesStore> list = filesStoreDao.findWithFileNameAndUser(filesStore.getFileName(),filesStore.getUser());
         if (list.isEmpty()) {
             filesStoreDao.save(filesStore);
             if (filesStore.getPrivacy() == 2) {
@@ -160,5 +159,15 @@ public class FilesStoreServiceImpl implements FilesStoreService{
 
         }
         return list;
+    }
+
+    @Override
+    public List<FilesStore> findWithFileNameAndUser(String fileName, String login) {
+        return filesStoreDao.findWithFileNameAndUser(fileName,userService.find(login));
+    }
+
+    @Override
+    public List<FilesStore> findWithDataAndUser(byte[] data, String login) {
+        return filesStoreDao.findWithDataAndUser(data,userService.find(login));
     }
 }

@@ -1,6 +1,8 @@
 package services;
 
 import model.FilesStore;
+import model.User;
+
 import java.util.List;
 
 public interface FilesStoreService {
@@ -14,5 +16,8 @@ public interface FilesStoreService {
     List<String> findAll(String login);
     List<String> findAllInSpecialFiles(String login);
     List<String> findAllInSpecialFilesWhereIIsOwner(String login,String fileName);
+    List<FilesStore> findWithFileNameAndUser(String fileName, String login);
+    List<FilesStore> findWithDataAndUser(byte[] data, String login);
+
 
 }

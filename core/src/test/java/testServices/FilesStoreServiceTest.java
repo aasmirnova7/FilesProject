@@ -89,4 +89,12 @@ public class FilesStoreServiceTest {
     public void findAllInSpecialFilesWhereIIsOwnerTest(){
         Assert.assertFalse(filesStoreService.findAllInSpecialFilesWhereIIsOwner("1","AAA").isEmpty());
     }
+    @Test
+    public void findWithFileNameAndUserTest(){
+        Assert.assertFalse(filesStoreService.findWithFileNameAndUser("AAA","1").isEmpty());
+    }
+    @Test
+    public void findWithDataAndUserTest(){
+        Assert.assertFalse(filesStoreService.findWithDataAndUser("QQQ".getBytes(),"1").isEmpty());
+    }
 }

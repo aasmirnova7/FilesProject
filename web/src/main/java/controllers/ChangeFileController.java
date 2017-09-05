@@ -32,7 +32,12 @@ public class ChangeFileController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String id = auth.getName();
         ModelAndView model = new ModelAndView("change_file");
-        model.addObject("strings",filesStoreService.findAll(id));
+        if(filesStoreService.findAll(id).isEmpty()){
+            model.addObject("strings","_");
+        }
+        else {
+            model.addObject("strings",filesStoreService.findAll(id));
+        }
         model.addObject("users",userService.findAll());
         return model;
     }
@@ -44,61 +49,69 @@ public class ChangeFileController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String id = auth.getName();
         ModelAndView model = new ModelAndView("change_file");
-        if(action.equals("Choose")){
-            oldName = theme;
-            flag = true;
+        if (theme.equals("_")) {
+            model.addObject("error", " Upload files before change!");
+            model.addObject("strings","_");
             model.addObject("users",userService.findAll());
-            model.addObject("strings",filesStoreService.findAll(id));
-            FilesStore filesStore = filesStoreService.find(theme,id).get(0);
-            model.addObject("fileName",filesStore.getFileName());
-            model.addObject("level",filesStore.getPrivacy());
             return model;
-        }
-        else if(action.equals("Commit") && flag) {
+        } else {
+            if (action.equals("Choose")) {
+
+                oldName = theme;
+                flag = true;
+                model.addObject("users", userService.findAll());
+                model.addObject("strings", filesStoreService.findAll(id));
+                FilesStore filesStore = filesStoreService.findWithFileNameAndUser(theme, id).get(0);
+                model.addObject("fileName", filesStore.getFileName());
+                model.addObject("level", filesStore.getPrivacy());
+                return model;
+            } else if (action.equals("Commit") && flag) {
                 flag = false;
-                FilesStore filesStore = filesStoreService.find(oldName, id).get(0);
+                FilesStore filesStore = filesStoreService.findWithFileNameAndUser(oldName, id).get(0);
                 String[] s = filesStore.getFileName().split("\\.");
                 String type = s[s.length - 1];
                 if (newLevel.equals("0") || newLevel.equals("1") || newLevel.equals("2")) {
                     filesStoreService.changeLevel(filesStore, Integer.parseInt(newLevel), id);
-                    model.addObject("level", filesStoreService.find(oldName, id).get(0).getPrivacy());
-                    model.addObject("fileName",filesStoreService.find(oldName, id).get(0).getFileName());
+                    model.addObject("level", filesStoreService.findWithFileNameAndUser(oldName, id).get(0).getPrivacy());
+                    model.addObject("fileName", filesStoreService.findWithFileNameAndUser(oldName, id).get(0).getFileName());
                 } else if (newLevel.equals("_")) {
-                    model.addObject("fileName",filesStoreService.find(oldName, id).get(0).getFileName());
-                    model.addObject("level",filesStoreService.find(oldName, id).get(0).getPrivacy());
+                    model.addObject("fileName", filesStoreService.findWithFileNameAndUser(oldName, id).get(0).getFileName());
+                    model.addObject("level", filesStoreService.findWithFileNameAndUser(oldName, id).get(0).getPrivacy());
                 }
-                if(newLevel.equals("2")){
-                    if(addDelete.equals("add")) {
-                        filesStoreService.addIdAccessed(filesStoreService.find(oldName, id).get(0),personAdd);
-                    }
-                    else if(addDelete.equals("delete")){
-                        if(personAdd.equals(id))
-                            model.addObject("errorlevel","You can not delete yourself");
-                        else if(!filesStoreService.findAllInSpecialFilesWhereIIsOwner(id,oldName).contains(personAdd)){
-                            model.addObject("errorlevel","This person haven't access to this file");
+                if (newLevel.equals("2")) {
+                    if (addDelete.equals("add")) {
+                        filesStoreService.addIdAccessed(filesStoreService.findWithFileNameAndUser(oldName, id).get(0), personAdd);
+                    } else if (addDelete.equals("delete")) {
+                        if (personAdd.equals(id))
+                            model.addObject("errorlevel", "You can not delete yourself");
+                        else if (!filesStoreService.findAllInSpecialFilesWhereIIsOwner(id, oldName).contains(personAdd)) {
+                            model.addObject("errorlevel", "This person haven't access to this file");
                         }
-                        filesStoreService.deleteIdAccessed(filesStoreService.find(oldName, id).get(0),personAdd);
+                        filesStoreService.deleteIdAccessed(filesStoreService.findWithFileNameAndUser(oldName, id).get(0), personAdd);
                     }
                 }
                 Matcher matcher1 = pattern.matcher(newFileName);
                 if (!newFileName.equals("") && matcher1.matches()) {
-                    filesStoreService.changeFileName(filesStore, newFileName+"."+ type, id);
-                    model.addObject("fileName", filesStoreService.find(newFileName +"."+ type, id).get(0).getFileName());
-                    model.addObject("level",filesStoreService.find(newFileName +"."+ type, id).get(0).getPrivacy());
+                    filesStoreService.changeFileName(filesStore, newFileName + "." + type, id);
+                    model.addObject("fileName", filesStoreService.findWithFileNameAndUser(newFileName + "." + type, id).get(0).getFileName());
+                    model.addObject("level", filesStoreService.findWithFileNameAndUser(newFileName + "." + type, id).get(0).getPrivacy());
                 }
                 if (!matcher1.matches()) {
-                    model.addObject("fileName",filesStoreService.find(oldName, id).get(0).getFileName());
-                    model.addObject("level",filesStoreService.find(oldName, id).get(0).getPrivacy());
+                    model.addObject("fileName", filesStoreService.findWithFileNameAndUser(oldName, id).get(0).getFileName());
+                    model.addObject("level", filesStoreService.findWithFileNameAndUser(oldName, id).get(0).getPrivacy());
                     model.addObject("errorFileName", " Use just letters or numbers or \"_\"!");
                 }
-                model.addObject("strings",filesStoreService.findAll(id));
-                model.addObject("users",userService.findAll());
+                model.addObject("strings", filesStoreService.findAll(id));
+                model.addObject("users", userService.findAll());
                 return model;
             } else {
-                model.addObject("users",userService.findAll());
-                model.addObject("strings",filesStoreService.findAll(id));
+                model.addObject("users", userService.findAll());
+                model.addObject("strings", filesStoreService.findAll(id));
                 model.addObject("errorFileName", " Choose file before commit!");
                 return model;
             }
+        }
+
+
     }
 }

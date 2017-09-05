@@ -16,10 +16,10 @@ public class FilesStoreDaoImpl implements FilesStoreDao {
     private EntityManager entityManager;
 
     @Override
-    public List<FilesStore> findWithFileNameAndUser(FilesStore filesStore){
+    public List<FilesStore> findWithFileNameAndUser(String fileName, User user){
         TypedQuery<FilesStore> query = entityManager.createQuery("FROM FilesStore s WHERE s.fileName = :name AND s.user = :myuser", FilesStore.class);
-        query.setParameter("name", filesStore.getFileName());
-        query.setParameter("myuser", filesStore.getUser());
+        query.setParameter("name", fileName);
+        query.setParameter("myuser", user);
         return query.getResultList();
     }
     @Override
@@ -34,6 +34,15 @@ public class FilesStoreDaoImpl implements FilesStoreDao {
         query.setParameter("file", fs);
         return query.getResultList();
     }
+
+    @Override
+    public List<FilesStore> findWithDataAndUser(byte[] data, User user) {
+        TypedQuery<FilesStore> query = entityManager.createQuery("FROM FilesStore s WHERE s.data = :mydata AND s.user = :myuser", FilesStore.class);
+        query.setParameter("mydata", data);
+        query.setParameter("myuser", user);
+        return query.getResultList();
+    }
+
     @Override
     @Transactional
     public void save(FilesStore filesStore){

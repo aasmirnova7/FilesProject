@@ -7,7 +7,7 @@ import model.User;
 import java.util.List;
 
 public interface FilesStoreDao {
-    List<FilesStore> findWithFileNameAndUser(FilesStore filesStore);
+    List<FilesStore> findWithFileNameAndUser(String fileName,User user);
     List<FilesStore> findWithFileName(String fileName);
     void save(FilesStore filesStore);
     void delete(FilesStore file);
@@ -17,4 +17,5 @@ public interface FilesStoreDao {
     List<SpecialAccessFilesStore> findAllInSpecialFiles(String login);
     List<FilesStore> findWithLevel0();
     List<SpecialAccessFilesStore> findWithFileNameInSAFS(FilesStore fs);
+    List<FilesStore> findWithDataAndUser(byte[] data,User user);
 }
