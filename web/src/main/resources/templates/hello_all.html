@@ -44,6 +44,9 @@
         input:hover{
         background-color: YellowGreen;
         }
+        .error{
+        color: red;
+        }
     </style>
 </head>
 
@@ -73,16 +76,28 @@
 
                         <div><p>Click <a th:href="@{/profile}">PROFILE</a> to change the data of profile.</p></div>
 
-                        <form th:action="@{/logout}" method="post">
-                            <input type="submit" value="Sign Out"/>
-                        </form>
+                        <table>
+                            <tr>
+                                <td>
+                                    <form th:action="@{/logout}" method="post">
+                                        <input  type="submit" value="Sign Out"/>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form th:action="@{/hello_all}" method="post">
+                                        <input name="action" type="submit" value="Delete account"/>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </td>
 
                 <td>
                     <div class="file">
                         <form th:action="@{/hello_all}" method="post">
-                            <input type="submit" value="Show all files" onclick="showHide('hide2')"/>
+                            <input name="action" type="submit" value="Show all files" onclick="showHide('hide2')"/>
+                                <div class="error" th:text="${error}"></div>
                                 <div  th:text="${lable1}"></div>
                                 <th:block th:each="string : ${strings}">
                                     <ul>
@@ -96,12 +111,12 @@
                                         <li th:text="${file}">...</li>
                                     </ul>
                                 </th:block>
-
                         </form>
 
                         <div><p>Click <a th:href="@{/Upload}">UPLOAD</a> to load files.</p></div>
                         <div><p>Click <a th:href="@{/download}">DOWNLOAD</a> to download files.</p></div>
                         <div><p>Click <a th:href="@{/change_file}">CHANGE</a> to change files.</p></div>
+                        <div><p>Click <a th:href="@{/delete_file}">DELETE FILE</a> to delete files.</p></div>
                     </div>
                 </td>
             </tr>

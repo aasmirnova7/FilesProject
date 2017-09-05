@@ -56,7 +56,6 @@ public class ChangeFileController {
             return model;
         } else {
             if (action.equals("Choose")) {
-
                 oldName = theme;
                 flag = true;
                 model.addObject("users", userService.findAll());

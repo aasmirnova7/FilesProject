@@ -32,7 +32,7 @@ public class ProfileController {
 
     @RequestMapping(value = "/profile", method = RequestMethod.POST)
     public ModelAndView changeProfile(@RequestParam String newLastName, @RequestParam String newName,
-                                       @RequestParam String repeatPassword, @RequestParam String newPassword) {
+                                      @RequestParam String repeatPassword, @RequestParam String newPassword) {
         ModelAndView model = new ModelAndView("profile");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String id = auth.getName();

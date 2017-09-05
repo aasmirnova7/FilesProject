@@ -27,16 +27,28 @@ public class HomePageController {
     }
 
     @RequestMapping(value = "/hello_all", method = RequestMethod.POST)
-    public ModelAndView getFileName(){
+    public ModelAndView getFileName(@RequestParam String action) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String id = auth.getName();
         ModelAndView model = new ModelAndView("hello_all");
-        model.addObject("firstName",userService.find(id).getName());
-        model.addObject("lastName",userService.find(id).getLastName());
-        model.addObject("lable1","My files: ");
-        model.addObject("strings",filesStoreService.findAll(id));
-        model.addObject("lable2","Files that I can see: ");
-        model.addObject("files",filesStoreService.findAllInSpecialFiles(id));
+        if (action.equals("Delete account")) {
+            userService.delete(id);
+            return new ModelAndView("login");
+        } else if(action.equals("Show all files")) {
+            if(!filesStoreService.findAll(id).isEmpty()) {
+                model.addObject("lable1", "My files: ");
+                model.addObject("strings", filesStoreService.findAll(id));
+            }
+            if(!filesStoreService.findAllInSpecialFiles(id).isEmpty()) {
+                model.addObject("lable2", "Files that I can see: ");
+                model.addObject("files", filesStoreService.findAllInSpecialFiles(id));
+            }
+            if(filesStoreService.findAll(id).isEmpty() && filesStoreService.findAllInSpecialFiles(id).isEmpty()){
+                model.addObject("error", "You have not files!");
+            }
+        }
+        model.addObject("firstName", userService.find(id).getName());
+        model.addObject("lastName", userService.find(id).getLastName());
         return model;
     }
 }
