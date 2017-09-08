@@ -7,7 +7,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import services.UserService;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,7 +16,7 @@ public class UserValidator implements Validator {
 
     @Autowired
     private UserService userService;
-    Pattern pattern = Pattern.compile("[a-zA-Z]*");
+    private Pattern pattern = Pattern.compile("[a-zA-Z]*");
 
     @Override
     public boolean supports(Class<?> aClass) {

@@ -3,49 +3,48 @@
 
 <head>
     <title>Home page</title>
-    <!--<link rel="stylesheet" type="text/css" href="style.css"/>-->
     <style type="text/css">
         body{
-        margin:0;
-        padding:0;
-        background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
+            margin:0;
+            padding:0;
+            background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
         }
         table{
-        margin:30px;
+            margin:30px;
         }
         .header{
-        border-radius: 20px;
-        background-color: YellowGreen;
-        padding:10px;
+            border-radius: 20px;
+            background-color: YellowGreen;
+            padding:10px;
         }
         .myData{
-        border: 5px solid;
-        padding:50px;
-        float:left;
-        display: block;
-        width: 300px;
-        height: 250px;
-        margin: 0px;
-        color: red;
+            border: 5px solid;
+            padding:50px;
+            float:left;
+            display: block;
+            width: 300px;
+            height: 250px;
+            margin: 0px;
+            color: red;
         }
         .file{
-        padding: 50px;
-        float:right;
-        display: block;
-        width: 300px;
-        min-height: 250px;
-        border: 5px solid;
-        color: green;
-        margin: 0px;
+            padding: 50px;
+            float:right;
+            display: block;
+            width: 300px;
+            min-height: 250px;
+            border: 5px solid;
+            color: green;
+            margin: 0px;
         }
         a:hover{
-        color: DarkGreen;
+            color: DarkGreen;
         }
         input:hover{
-        background-color: YellowGreen;
+            background-color: YellowGreen;
         }
         .error{
-        color: red;
+            color: red;
         }
     </style>
 </head>
@@ -59,16 +58,16 @@
 
         <table >
             <tr>
-                <td>
+                <td valign="top">
                     <div class="myData">
                         <form th:action="@{/hello_all}" method="get">
                             <table>
                                 <tr>
-                                    <td><h4>Name : </h4></td>
+                                    <td><h4>Name: </h4></td>
                                     <td><h4 th:text="${firstName}"/></td>
                                 </tr>
                                 <tr>
-                                    <td><h4>LastName : </h4></td>
+                                    <td><h4>LastName: </h4></td>
                                     <td><h4 th:text="${lastName}"/></td>
                                 </tr>
                             </table>

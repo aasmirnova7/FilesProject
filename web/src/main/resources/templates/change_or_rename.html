@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Replace or Rename</title>
+    <style type="text/css">
+        body{
+            margin:0;
+            padding:0;
+            background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
+        }
+        table{
+            margin:30px;
+        }
+        .header{
+            border-radius: 20px;
+            background-color: YellowGreen;
+            padding:10px;
+        }
+        a:hover{
+            color: DarkGreen;
+        }
+        input:hover{
+            background-color: YellowGreen;
+        }
+        .error{
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+<div align="center">
+    <div class="header">
+        <h1 th:inline="text">File with this name already exist, rename it or change old file!</h1>
+    </div>
+    <form th:action="@{/change_or_rename}" method="post">
+        <table>
+            <tr><td class="error" th:text="${error}"></td></tr>
+        </table>
+        <table>
+            <tr>
+                <td>NewName</td>
+            </tr>
+            <tr><td><input type="text" name="newName"/></td></tr>
+            <tr>
+                <td>
+                    <input name="action" type="submit" value="Rename"/>
+                </td>
+                <td>
+                    <input name="action" type="submit" value="Replace content"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

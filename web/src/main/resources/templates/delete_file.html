@@ -4,26 +4,26 @@
     <title>Download page</title>
     <style type="text/css">
         body{
-        margin:0;
-        padding:0;
-        background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
+            margin:0;
+            padding:0;
+            background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
         }
         .header{
-        border-radius: 20px;
-        background-color: YellowGreen;
-        padding:10px;
+            border-radius: 20px;
+            background-color: YellowGreen;
+            padding:10px;
         }
         table{
-        margin:20px;
+            margin:20px;
         }
         a:hover{
-        color: DarkGreen;
+            color: DarkGreen;
         }
         input:hover{
-        background-color: YellowGreen;
+            background-color: YellowGreen;
         }
         .error{
-        color: red;
+            color: red;
         }
     </style>
 </head>
@@ -39,6 +39,8 @@
                 <td class="error" th:text="${success}"></td>
                 <td class="error" th:text="${error}"></td>
             </tr>
+        </table>
+        <table>
             <tr>
                 <td>Choose file:
                     <select name="theme">

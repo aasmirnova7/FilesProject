@@ -4,10 +4,11 @@ import dao.SpecialAccessFilesStoreDao;
 import model.FilesStore;
 import model.SpecialAccessFilesStore;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 
 @Repository
 public class SpecialAccessFilesStoreDaoImpl implements SpecialAccessFilesStoreDao {
@@ -27,8 +28,6 @@ public class SpecialAccessFilesStoreDaoImpl implements SpecialAccessFilesStoreDa
                 entityManager.persist(safs);
             }
         }
-        //Иначе говорим, что нужно менять privacy
-        //Если не добавляем, то выдвать сообщение
     }
     @Override
     @Transactional

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import services.UserService;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,14 +19,17 @@ public class ProfileController {
 
     private Pattern pattern = Pattern.compile("[a-zA-Z]*");
 
+    private ModelAndView updateModel(ModelAndView model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String id = auth.getName();
+        model.addObject("lastName",userService.find(id).getLastName());
+        model.addObject("name",userService.find(id).getName());
+        return model;
+    }
+
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView showProfilePage() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        ModelAndView model = new ModelAndView("profile");
-        model.addObject("lastName",userService.find(name).getLastName());
-        model.addObject("name",userService.find(name).getName());
-        return model;
+        return updateModel(new ModelAndView("profile"));
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.POST)
@@ -38,19 +40,15 @@ public class ProfileController {
         String id = auth.getName();
 
         Matcher matcher1 = pattern.matcher(newLastName);
-        if(!newLastName.equals("") && matcher1.matches()){
-            userService.changeLastName(id,newLastName);
-        }
-        if(!matcher1.matches()){
-            model.addObject("errorLastName"," Use just letters!");
+        if(!newLastName.equals("")){
+            if(matcher1.matches()&&newLastName.length()<20) userService.changeLastName(id, newLastName);
+            else  model.addObject("errorLastName"," Use just letters and size need to be less than 20!");
         }
 
         matcher1 = pattern.matcher(newName);
-        if(!newName.equals("")&& matcher1.matches()){
-            userService.changeFirstName(id,newName);
-        }
-        if(!matcher1.matches()){
-            model.addObject("errorFirstName"," Use just letters!");
+        if(!newName.equals("")){
+            if(matcher1.matches()&&newName.length()<20) userService.changeFirstName(id,newName);
+            else model.addObject("errorFirstName"," Use just letters and size need to be less than 20!");
         }
 
         if(newPassword.length() > 5 && repeatPassword.equals(newPassword)){
@@ -63,8 +61,6 @@ public class ProfileController {
         if(newPassword.length() < 6 && newPassword.length() > 0){
             model.addObject("errorPassword"," Password must be between 6 and 30 characters!");
         }
-        model.addObject("name",userService.find(id).getName());
-        model.addObject("lastName",userService.find(id).getLastName());
-        return model;
+        return updateModel(model);
     }
 }

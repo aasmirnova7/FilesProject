@@ -4,31 +4,36 @@
     <title>Change file page</title>
     <style type="text/css">
         body{
-        margin:0;
-        padding:0;
-        background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
+            margin:0;
+            padding:0;
+            background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
         }
         .header{
-        border-radius: 20px;
-        background-color: YellowGreen;
-        padding:10px;
+            border-radius: 20px;
+            background-color: YellowGreen;
+            padding:10px;
         }
         table{
-        margin:20px;
+            margin:20px;
         }
         a:hover{
-        color: DarkGreen;
+            color: DarkGreen;
         }
         input:hover{
-        background-color: YellowGreen;
+            background-color: YellowGreen;
         }
         .error{
-        color: red;
+            color: red;
+        }
+        .inf{
+            margin-left: 480px;
+        }
+        .link{
+            margin-left: 500px;
         }
         #addDelete{display:none;}
         #fieldAdd{display:none;}
         #personAdd{display:none;}
-
     </style>
 </head>
 <body>
@@ -36,12 +41,16 @@
         <div class="header">
             <h1>Change your file</h1>
         </div>
-        <form  th:action="@{/change_file}"  method="post">
+    </div>
+    <form  th:action="@{/change_file}"  method="post">
+        <div align="center">
             <table>
                 <tr>
                     <td th:text="${success}"></td>
                     <td class="error" th:text="${error}"></td>
                 </tr>
+            </table>
+            <table>
                 <tr>
                     <td>Choose file:
                         <select name="theme">
@@ -55,8 +64,8 @@
                     <td><input name="action" type="submit" value="Choose"/></td>
                 </tr>
             </table>
-
-            <table >
+        </div>
+            <table class="inf">
                 <tr>
                     <td>File name: </td>
                     <td><h4 th:text="${fileName}"/></td>
@@ -106,13 +115,12 @@
                     <td><input name="action" type="submit" value="Commit"/></td>
                 </tr>
             </table>
-            <table border="solid">
+            <table border="solid" class="link">
                 <tr>
                     <td>Click <a th:href="@{/hello_all}">HOME</a> to return to home page</td>
                 </tr>
             </table>
-        </form>
-    </div>
+    </form>
     <script th:inline="javascript">
         /*<![CDATA[*/
         function change(){

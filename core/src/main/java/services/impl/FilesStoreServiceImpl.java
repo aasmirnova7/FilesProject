@@ -32,8 +32,6 @@ public class FilesStoreServiceImpl implements FilesStoreService{
                     safsd.save(filesStore, id);
                 }
             }
-        } else {
-            list.get(0).setPrivacy(filesStore.getPrivacy());
         }
     }
     @Override
@@ -46,6 +44,15 @@ public class FilesStoreServiceImpl implements FilesStoreService{
             }
         }
     }
+
+    @Override
+    public void changeData(FilesStore fs, byte[] data, String login) {
+        if(fs.getUser().getId().equals(login)){
+            fs.setData(data);
+            filesStoreDao.mergeFileStore(fs);
+        }
+    }
+
     @Override
     public List<FilesStore> find(String fileName, String login) {
         Integer privacy;
@@ -162,12 +169,18 @@ public class FilesStoreServiceImpl implements FilesStoreService{
     }
 
     @Override
-    public List<FilesStore> findWithFileNameAndUser(String fileName, String login) {
-        return filesStoreDao.findWithFileNameAndUser(fileName,userService.find(login));
+    public FilesStore findWithFileNameAndUser(String fileName, String login) {
+        if(filesStoreDao.findWithFileNameAndUser(fileName,userService.find(login)).isEmpty()){
+            return null;
+        }
+        else return filesStoreDao.findWithFileNameAndUser(fileName,userService.find(login)).get(0);
     }
 
     @Override
-    public List<FilesStore> findWithDataAndUser(byte[] data, String login) {
-        return filesStoreDao.findWithDataAndUser(data,userService.find(login));
+    public FilesStore findWithDataAndUser(byte[] data, String login) {
+        if(filesStoreDao.findWithDataAndUser(data,userService.find(login)).isEmpty()){
+            return null;
+        }
+        return filesStoreDao.findWithDataAndUser(data,userService.find(login)).get(0);
     }
 }

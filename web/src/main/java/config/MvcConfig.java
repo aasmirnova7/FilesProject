@@ -21,6 +21,16 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/Profile").setViewName("Profile");
         registry.addViewController("/download").setViewName("download");
         registry.addViewController("/change_file").setViewName("change_file");
+        registry.addViewController("/style").setViewName("style");
+//        registry.addViewController("css/style").setViewName("style");
     }
+
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+////        super.addResourceHandlers(registry);
+//////        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+////        registry.addResourceHandler("*.css").addResourceLocations("../../resources/static/css/");
+//        registry.addResourceHandler("*.css").addResourceLocations("FilesProject/web/src/main/resources/static/css");
+//    }
 
 }

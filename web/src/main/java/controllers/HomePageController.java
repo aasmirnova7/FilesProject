@@ -9,6 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 import services.FilesStoreService;
 import services.UserService;
 
+import java.util.List;
+
 @Controller
 public class HomePageController {
     @Autowired
@@ -16,18 +18,20 @@ public class HomePageController {
     @Autowired
     private UserService userService;
 
+    private ModelAndView updateModel(ModelAndView model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String id = auth.getName();
+        model.addObject("firstName",userService.find(id).getName());
+        model.addObject("lastName",userService.find(id).getLastName());
+        return model;
+    }
     @RequestMapping(value = "/hello_all", method = RequestMethod.GET)
     public ModelAndView showHomePage() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        ModelAndView model = new ModelAndView("hello_all");
-        model.addObject("firstName",userService.find(name).getName());
-        model.addObject("lastName",userService.find(name).getLastName());
-        return model;
+        return updateModel(new ModelAndView("hello_all"));
     }
 
     @RequestMapping(value = "/hello_all", method = RequestMethod.POST)
-    public ModelAndView getFileName(@RequestParam String action) {
+    public ModelAndView showFiles(@RequestParam String action) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String id = auth.getName();
         ModelAndView model = new ModelAndView("hello_all");
@@ -35,20 +39,20 @@ public class HomePageController {
             userService.delete(id);
             return new ModelAndView("login");
         } else if(action.equals("Show all files")) {
-            if(!filesStoreService.findAll(id).isEmpty()) {
+            List<String> myfiles = filesStoreService.findAll(id);
+            List<String> filesICanSee = filesStoreService.findAllInSpecialFiles(id);
+            if(!myfiles.isEmpty()) {
                 model.addObject("lable1", "My files: ");
-                model.addObject("strings", filesStoreService.findAll(id));
+                model.addObject("strings", myfiles);
             }
-            if(!filesStoreService.findAllInSpecialFiles(id).isEmpty()) {
+            if(!filesICanSee.isEmpty()) {
                 model.addObject("lable2", "Files that I can see: ");
-                model.addObject("files", filesStoreService.findAllInSpecialFiles(id));
+                model.addObject("files", filesICanSee);
             }
-            if(filesStoreService.findAll(id).isEmpty() && filesStoreService.findAllInSpecialFiles(id).isEmpty()){
+            if(myfiles.isEmpty() && filesICanSee.isEmpty()){
                 model.addObject("error", "You have not files!");
             }
         }
-        model.addObject("firstName", userService.find(id).getName());
-        model.addObject("lastName", userService.find(id).getLastName());
-        return model;
+        return updateModel(model);
     }
 }

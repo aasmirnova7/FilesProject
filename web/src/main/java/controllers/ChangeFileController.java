@@ -1,7 +1,6 @@
 package controllers;
 
 import model.FilesStore;
-import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,66 +48,62 @@ public class ChangeFileController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String id = auth.getName();
         ModelAndView model = new ModelAndView("change_file");
+        model.addObject("users",userService.findAll());
         if (theme.equals("_")) {
             model.addObject("error", " Upload files before change!");
             model.addObject("strings","_");
-            model.addObject("users",userService.findAll());
             return model;
         } else {
+            FilesStore filesStore = filesStoreService.findWithFileNameAndUser(theme, id);
             if (action.equals("Choose")) {
                 oldName = theme;
                 flag = true;
-                model.addObject("users", userService.findAll());
-                model.addObject("strings", filesStoreService.findAll(id));
-                FilesStore filesStore = filesStoreService.findWithFileNameAndUser(theme, id).get(0);
-                model.addObject("fileName", filesStore.getFileName());
-                model.addObject("level", filesStore.getPrivacy());
-                return model;
             } else if (action.equals("Commit") && flag) {
                 flag = false;
-                FilesStore filesStore = filesStoreService.findWithFileNameAndUser(oldName, id).get(0);
+                filesStore = filesStoreService.findWithFileNameAndUser(oldName, id);
                 String[] s = filesStore.getFileName().split("\\.");
                 String type = s[s.length - 1];
                 if (newLevel.equals("0") || newLevel.equals("1") || newLevel.equals("2")) {
                     filesStoreService.changeLevel(filesStore, Integer.parseInt(newLevel), id);
-                    model.addObject("level", filesStoreService.findWithFileNameAndUser(oldName, id).get(0).getPrivacy());
-                    model.addObject("fileName", filesStoreService.findWithFileNameAndUser(oldName, id).get(0).getFileName());
-                } else if (newLevel.equals("_")) {
-                    model.addObject("fileName", filesStoreService.findWithFileNameAndUser(oldName, id).get(0).getFileName());
-                    model.addObject("level", filesStoreService.findWithFileNameAndUser(oldName, id).get(0).getPrivacy());
+                    filesStore = filesStoreService.findWithFileNameAndUser(oldName, id);
                 }
                 if (newLevel.equals("2")) {
                     if (addDelete.equals("add")) {
-                        filesStoreService.addIdAccessed(filesStoreService.findWithFileNameAndUser(oldName, id).get(0), personAdd);
+                        filesStoreService.addIdAccessed(filesStore, personAdd);
                     } else if (addDelete.equals("delete")) {
                         if (personAdd.equals(id))
                             model.addObject("errorlevel", "You can not delete yourself");
                         else if (!filesStoreService.findAllInSpecialFilesWhereIIsOwner(id, oldName).contains(personAdd)) {
                             model.addObject("errorlevel", "This person haven't access to this file");
                         }
-                        filesStoreService.deleteIdAccessed(filesStoreService.findWithFileNameAndUser(oldName, id).get(0), personAdd);
+                        filesStoreService.deleteIdAccessed(filesStore, personAdd);
                     }
                 }
                 Matcher matcher1 = pattern.matcher(newFileName);
-                if (!newFileName.equals("") && matcher1.matches()) {
-                    filesStoreService.changeFileName(filesStore, newFileName + "." + type, id);
-                    model.addObject("fileName", filesStoreService.findWithFileNameAndUser(newFileName + "." + type, id).get(0).getFileName());
-                    model.addObject("level", filesStoreService.findWithFileNameAndUser(newFileName + "." + type, id).get(0).getPrivacy());
+                if(!newFileName.equals("")){
+                    if (matcher1.matches()) {
+                        if(!filesStoreService.findAll(id).contains(newFileName+"." + type)){
+                            filesStoreService.changeFileName(filesStore, newFileName + "." + type, id);
+                            filesStore = filesStoreService.findWithFileNameAndUser(newFileName + "." + type, id);
+                        }
+                        else {
+                            filesStore = filesStoreService.findWithFileNameAndUser(oldName, id);
+                            model.addObject("errorFileName", "File with this name already exist!");
+                        }
+
+                    }
+                    else {
+                        filesStore = filesStoreService.findWithFileNameAndUser(oldName, id);
+                        model.addObject("errorFileName", " Use just letters or numbers or \"_\"!");
+                    }
                 }
-                if (!matcher1.matches()) {
-                    model.addObject("fileName", filesStoreService.findWithFileNameAndUser(oldName, id).get(0).getFileName());
-                    model.addObject("level", filesStoreService.findWithFileNameAndUser(oldName, id).get(0).getPrivacy());
-                    model.addObject("errorFileName", " Use just letters or numbers or \"_\"!");
-                }
-                model.addObject("strings", filesStoreService.findAll(id));
-                model.addObject("users", userService.findAll());
-                return model;
             } else {
-                model.addObject("users", userService.findAll());
-                model.addObject("strings", filesStoreService.findAll(id));
                 model.addObject("errorFileName", " Choose file before commit!");
-                return model;
             }
+            model.addObject("fileName", filesStore.getFileName());
+            model.addObject("level", filesStore.getPrivacy());
+            model.addObject("strings", filesStoreService.findAll(id));
+            return model;
         }
 
 

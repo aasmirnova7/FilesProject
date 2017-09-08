@@ -12,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 import services.FilesStoreService;
 import services.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class FileUploadController {
     @Autowired
@@ -25,7 +27,7 @@ public class FileUploadController {
     }
 
     @RequestMapping(value = "/Upload", method = RequestMethod.POST)
-    public ModelAndView handleFileUpload(@RequestParam MultipartFile file) throws Exception {
+    public ModelAndView handleFileUpload(HttpServletRequest request, @RequestParam MultipartFile file) throws Exception {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String id = auth.getName();
@@ -36,20 +38,26 @@ public class FileUploadController {
             return model;
         }
         else {
-            if(filesStoreService.findWithFileNameAndUser(file.getOriginalFilename(),id).isEmpty()
-                    &&filesStoreService.findWithDataAndUser(file.getBytes(),id).isEmpty()){
-                FilesStore uploadFile = new FilesStore();
-                uploadFile.setFileName(file.getOriginalFilename());
-                uploadFile.setData(file.getBytes());
-                uploadFile.setUser(user);
-                uploadFile.setPrivacy(1);//надо обрабатывать
-                filesStoreService.save(uploadFile); //Если сохраняем один и тот же файл, тоже плохо
+            FilesStore uploadFile = new FilesStore();
+            uploadFile.setFileName(file.getOriginalFilename());
+            uploadFile.setData(file.getBytes());
+            uploadFile.setUser(user);
+            uploadFile.setPrivacy(1);
+            if(filesStoreService.findWithFileNameAndUser(file.getOriginalFilename(),id)==null
+                    &&filesStoreService.findWithDataAndUser(file.getBytes(),id)==null){
+
+                filesStoreService.save(uploadFile);
                 return new ModelAndView("Success");
             }
-            else {
-                model.addObject("error"," ERROR! File don't load! This file already exist in your files! With name: \""+filesStoreService.findWithDataAndUser(file.getBytes(),id).get(0).getFileName()+"\"");
+            else if(filesStoreService.findWithDataAndUser(file.getBytes(),id)!=null){
+                model.addObject("error"," ERROR! File don't load! This file already exist in your files! With name: \""+filesStoreService.findWithDataAndUser(file.getBytes(),id).getFileName()+"\"");
                 return model;
             }
+            else{
+                request.getSession().setAttribute("param",uploadFile);
+                return new ModelAndView("change_or_rename");
+            }
+
         }
 
     }

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import services.UserService;
 import validator.UserValidator;
-
 import javax.validation.Valid;
 
 
@@ -28,7 +27,7 @@ public class RegistrationController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String addUser( @Valid  User user, BindingResult result) {
+    public String addUser(@Valid  User user, BindingResult result) {
 
         userValidator.validate(user,result);
 

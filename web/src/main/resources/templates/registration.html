@@ -4,26 +4,38 @@
     <title>Registration page</title>
     <style type="text/css">
         body{
-        margin:0;
-        padding:0;
-        background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
+            margin:0;
+            padding:0;
+            background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
         }
         .header{
-        border-radius: 20px;
-        background-color: YellowGreen;
-        padding:10px;
+            border-radius: 20px;
+            background-color: YellowGreen;
+            padding:10px;
         }
         table{
-        margin: 30px;
+            margin-top: 30px;
+            margin-bottom: 10px;
         }
         a:hover{
-        color: DarkGreen;
+            color: DarkGreen;
         }
         input:hover, button:hover{
-        background-color: YellowGreen;
+            background-color: YellowGreen;
+        }
+        button{
+            margin-left: 180px;
         }
         .error{
-        color: red;
+            color: red;
+        }
+        form{
+            margin-left: 450px;
+            padding-left: 10px;
+            max-width: 700px;
+        }
+        .link{
+            margin-left: 140px;
         }
     </style>
 </head>
@@ -32,6 +44,7 @@
     <div class="header">
         <h1>Registration</h1>
     </div>
+</div>
     <form action="#" th:action="@{/registration}" th:object="${user}" method="POST">
         <table>
             <tr>
@@ -58,17 +71,15 @@
                 <td><input type="text" th:field="*{lastName}" /></td>
                 <td  class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></td>
             </tr>
-            <tr>
-                <td><button type="submit">Register</button></td>
-            </tr>
         </table>
-        <table border="solid">
+        <button type="submit" >Register</button>
+        <table border="solid" class="link">
             <tr>
                 <td>Click <a th:href="@{/login}">LOGIN</a> to login</td>
             </tr>
         </table>
+
     </form>
-</div>
 
 </body>
 </html>

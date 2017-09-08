@@ -91,10 +91,10 @@ public class FilesStoreServiceTest {
     }
     @Test
     public void findWithFileNameAndUserTest(){
-        Assert.assertFalse(filesStoreService.findWithFileNameAndUser("AAA","1").isEmpty());
+        Assert.assertNotNull(filesStoreService.findWithFileNameAndUser("AAA","1"));
     }
     @Test
     public void findWithDataAndUserTest(){
-        Assert.assertFalse(filesStoreService.findWithDataAndUser("QQQ".getBytes(),"1").isEmpty());
+        Assert.assertNotNull(filesStoreService.findWithDataAndUser("QQQ".getBytes(),"1"));
     }
 }

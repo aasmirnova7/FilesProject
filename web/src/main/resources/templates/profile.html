@@ -4,23 +4,32 @@
     <title>Profile page</title>
     <style type="text/css">
         body{
-        margin:0;
-        padding:0;
-        background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
+            margin:0;
+            padding:0;
+            background: url(https://look.com.ua/pic/201209/1400x1050/look.com.ua-28283.jpg);
         }
         .header{
-        border-radius: 20px;
-        background-color: YellowGreen;
-        padding:10px;
+            border-radius: 20px;
+            background-color: YellowGreen;
+            padding:10px;
         }
         table{
-        margin: 30px;
+            margin-top: 30px;
+            margin-bottom: 10px;
         }
         a:hover{
-        color: DarkGreen;
+            color: DarkGreen;
         }
         input:hover{
-        background-color: YellowGreen;
+            background-color: YellowGreen;
+        }
+        form{
+            margin-left: 400px;
+            padding-left: 10px;
+            max-width: 700px;
+        }
+        .link{
+            margin-left: 100px;
         }
     </style>
 </head>
@@ -29,6 +38,7 @@
         <div class="header">
             <h1>You profile</h1>
         </div>
+    </div>
         <form  th:action="@{/profile}"  method="POST">
             <table>
                 <tr>
@@ -64,12 +74,11 @@
                 </tr>
 
             </table>
-            <table border="solid">
+            <table border="solid" class="link">
                 <tr>
                     <td>Click <a th:href="@{/hello_all}">Home</a> to return on Home Page</td>
                 </tr>
             </table>
         </form>
-    </div>
 </body>
 </html>

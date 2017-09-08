@@ -1,14 +1,12 @@
 package dao.impl;
 
 import dao.UserDao;
-import model.FilesStore;
 import model.User;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -27,7 +25,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public void delete(String login) {
-        //Если удаляем строку из табл., нужно удалить все его файлы
         User u = find(login);
         //если есть тот который хотим удалить, то удаляем, если его нет, создадим и удалим
         entityManager.remove(entityManager.contains(u) ? u : entityManager.merge(u));
